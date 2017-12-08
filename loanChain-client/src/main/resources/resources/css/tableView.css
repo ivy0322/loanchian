@@ -1,0 +1,78 @@
+.table-view .filler, 
+.table-view .column {
+	-fx-background-color: transparent;  
+}
+table-row-cell .table-cell {    
+    -fx-border-width: 0px;    
+}
+.table-view .table-row-cell {    
+    -fx-background-insets: 0;    
+}
+.table-view .column-header{
+	 -fx-background-color: transparent;  
+}
+.table-view .column-header-background{    
+	-fx-padding:8px;
+    -fx-background-color: transparent;  
+    -fx-border-width:2px;
+    -fx-border-color: transparent transparent #6da9e9 transparent;
+}
+.table-view > .virtual-flow > .clipped-container > .sheet > .table-row-cell {  
+	-fx-background-color: transparent;
+} 
+
+.table-view > .virtual-flow > .clipped-container > .sheet > .table-row-cell > .table-cell {  
+    -fx-alignment:CENTER;
+    -fx-text-fill:WHITE;
+} 
+
+.table-view > .virtual-flow > .scroll-bar:horizontal{ 
+	-fx-color: transparent;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 0 0 0 1;  
+    -fx-padding: -1 -1 -1 0;  
+}  
+
+.table-view > .virtual-flow > .scroll-bar:vertical{
+	-fx-color: #a7befb;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 0 0 0 1;  
+    -fx-padding: -1 -1 -1 0;  
+}
+
+.table-view > .virtual-flow > .scroll-bar:vertical:hover{
+	-fx-color: #a7befb;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 0 0 0 1;  
+    -fx-padding: -1 -1 -1 0;  
+}
+/* The main scrollbar **track** CSS class  */
+.mylistview .scroll-bar:horizontal .track,
+.mylistview .scroll-bar:vertical .track{
+    -fx-background-color:transparent;
+    -fx-border-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius:2em;
+}
+.table-view,
+.tree-table-view {
+    /* Constants used throughout the tableview. */
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-cell {
+    -fx-padding: 0.2em; /* 2px, plus border adds 1px */
+    -fx-background-color: null;
+    -fx-border-color: transparent transparent #6da9e9 transparent;
+    -fx-cell-size: 2.0em; /* 24 */
+    -fx-text-fill: -fx-text-background-color;
+}
+ .table-row-cell:empty .table-cell {  
+    -fx-border-width: 0px;
+}
+.table-view > .virtual-flow > .clipped-container > .sheet > .table-row-cell:empty:hover{
+	 -fx-background-color: transparent;
+}
+.table-view > .virtual-flow > .clipped-container > .sheet > .table-row-cell:hover{
+	 -fx-background-color: #3b5aac;
+}

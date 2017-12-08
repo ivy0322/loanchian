@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.MapValueFactory?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import java.lang.Object?>
+
+<StackPane stylesheets="@../css/consensus.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.loanchian.wallet.controllers.ConsensusController">
+   <children>
+      <Pane prefHeight="30.0">
+         <children>
+            <HBox prefHeight="30.0">
+               <children>
+               	  <HBox alignment="CENTER" prefHeight="30.0" spacing="10.0">
+                     <children>
+                        <Label text="当前共识人数" />
+                        <Label fx:id="consensusNumberId" text="" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="30.0" spacing="10.0">
+                     <children>
+                        <Label text="我的信用" />
+                        <Label fx:id="certNumberId" text="" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <Pane nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0">
+         <children>
+            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" spacing="10.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Button fx:id="buttonId" mnemonicParsing="false" text="立即参与共识">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Label fx:id="statusLabelId" text="" />
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+         </children>
+      </Pane>
+      <TableView fx:id="table" style="-fx-background-color: transparent;">
+      	<columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+        <columns>
+          <TableColumn fx:id="status" maxWidth="0.0" minWidth="0" resizable="true" sortable="false" />
+          <TableColumn fx:id="address" minWidth="100" resizable="true" sortable="false" text="地址" />
+          <TableColumn fx:id="cert" resizable="true" sortable="false" text="信用" />
+          <TableColumn fx:id="time" resizable="true" sortable="false" text="注册时间" />
+        </columns>
+         <StackPane.margin>
+            <Insets top="38.0" />
+         </StackPane.margin>
+      </TableView>
+   </children>
+   <padding>
+      <Insets top="15.0" />
+   </padding>
+</StackPane>

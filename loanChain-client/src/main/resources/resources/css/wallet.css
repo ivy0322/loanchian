@@ -1,0 +1,162 @@
+.root-pane {
+}
+.mnemonic-area *.text {
+    -fx-text-alignment: center;
+}
+
+.title-banner {
+    -fx-background-color: #ffff;
+}
+
+.title-label {
+    -fx-background-color: darkseagreen;
+    -fx-text-fill: white;
+}
+
+.info-bar {
+    -fx-background-color: linear-gradient(to bottom, black, darkslategray);
+    -fx-padding: 10;
+}
+.info-bar > Label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.info-bar > .progress-bar > .bar {
+    -fx-padding: 8;
+}
+.info-bar > .progress-bar > .track {
+    -fx-opacity: 0.0;
+}
+
+
+.fat-button {
+    -fx-padding: 10 15 10 15;
+    -fx-min-width: 100;
+    -fx-base: whitesmoke;
+}
+
+.fat-button:default {
+    -fx-base: orange;
+    -fx-text-fill: white;
+}
+
+.fat-button:cancel {
+    -fx-background-color: lightgray, white;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 3;
+    -fx-text-fill: black;
+}
+
+.fat-button:cancel:hover {
+    -fx-base: white;
+    -fx-background-insets: -1, 0, 1, 2;
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-radius: 3;
+    -fx-text-fill: black;
+}
+
+.text-area {
+	-fx-text-fill: #fff;
+    -fx-background-color: transparent;
+    -fx-border-color: #6da9e9;
+    -fx-border-radius: 3;
+}
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+.antiCounterfeitingBut {
+	-fx-text-fill: #fff;
+	 -fx-font-size:16;
+    -fx-background-color: #4b6bc1;
+    -fx-border-color: #6585dc;
+    -fx-border-radius: 3;
+}
+.antiCounterfeitingBut:hover{
+	-fx-border-color:#506fc3;
+	-fx-background-color: #3b5aac;
+}
+
+.text-area>.scroll-pane>.scroll-bar:horizontal {
+	-fx-background-color: null;
+	-fx-background-radius: 0 0 0 0;
+}
+
+.text-area>.scroll-pane>.scroll-bar:vertical {
+	-fx-background-color: null;
+	-fx-background-radius: 0 0 0 0;
+}
+
+.text-area>.scroll-pane>.corner {
+	-fx-background-color: null;
+	-fx-background-radius: 0 0 0 0;
+}
+
+.text-area>.scroll-pane>.thumb {
+	-fx-background-color: null;
+}
+
+.text-area>.scroll-pane>.track {
+	-fx-background-color: null;
+}
+
+.text-area>.scroll-pane:vertical .track {
+	-fx-background-color: null;
+}
+
+/** CSS **/
+
+/* The main scrollbar CSS class of ListView */
+.text-area .scroll-bar:horizontal, .text-area  .scroll-bar:vertical {
+	-fx-background-color: transparent;
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+.text-area .increment-button, .text-area .decrement-button {
+	-fx-background-color: transparent;
+}
+/* The main scrollbar **track** CSS class  */
+.text-area .scroll-bar:horizontal .track, .text-area .scroll-bar:vertical .track
+	{
+	-fx-background-color: transparent;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.text-area .scroll-bar:horizontal .thumb, .text-area .scroll-bar:vertical .thumb
+	{
+	-fx-background-color: transparent;
+}
+
+/* The main scrollbar **track** CSS class on event of "hover" and "pressed" */
+.text-area .scroll-bar:horizontal:hover .track, .text-area .scroll-bar:horizontal:pressed .track,
+	.text-area .scroll-bar:vertical:hover .track, .text-area .scroll-bar:vertical:pressed .track
+	{
+	-fx-background-color: transparent;
+}
+
+/* The main scrollbar **thumb** CSS class on event of "hover" and "pressed" */
+.text-area .scroll-bar .thumb:hover, .text-area .scroll-bar .thumb:pressed
+	{
+	-fx-background-color: transparent;
+}
+
+.text-area .increment-button:hover, .text-area .decrement-button:hover {
+	-fx-background-color: transparent;
+}
+/* The increment and decrement button CSS class of scrollbar */
+.text-area .scroll-bar:vertical .increment-button, .text-area .scroll-bar:vertical .decrement-button {
+	-fx-background-color: transparent;
+}
+.text-area .scroll-bar .increment-arrow,
+.text-area .scroll-bar .decrement-arrow {
+	-fx-background-color:transparent;  
+	-fx-padding:0;	
+}

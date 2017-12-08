@@ -1,0 +1,26 @@
+.Dailogdecoration{
+	-fx-background-image: url("/images/dailog_bg.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;	
+    -fx-background-size: cover;
+}
+
+#close {
+	-fx-background-radius: 0;
+    -fx-border-style: null;
+    -fx-background-color: null;
+    -fx-background-image: url("/images/Dailogclose.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#close:hover {
+    -fx-background-color: null;
+    -fx-background-image: url("/images/dailogCloseHL_bg.png");
+    -fx-background-repeat: no-repeat;
+}
+Label{
+	-fx-text-fill:WHITE;
+    -fx-font-name:Microsoft YaHei;
+    -fx-font-size:14;
+}

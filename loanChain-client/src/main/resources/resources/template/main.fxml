@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.loanchian.wallet.controllers.MainController">
+  <children>
+    <StackPane fx:id="contentId" layoutX="226.0" layoutY="87.0" minHeight="530.0" minWidth="774.0" prefHeight="530.0" prefWidth="774.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="226.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="10.0" />
+      <HBox alignment="CENTER" layoutX="226.0" layoutY="612.0" prefHeight="36.0" spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="226.0">
+         <children>
+            <ImageView fx:id="nowNetTimeImageViewId" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/date_icon.png" />
+               </image>
+            </ImageView>
+            
+            <Label fx:id="nowNetTimeId" alignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Microsoft YaHei" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+    <HBox alignment="CENTER_RIGHT" layoutX="811.0" layoutY="600.0" spacing="20.0" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="50.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="36.0">
+               <children>
+                  <ImageView fx:id="blockInfoImageViewtId" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/block_icon.png" />
+                     </image>
+                     
+                  </ImageView>
+                  <Label fx:id="localNewestHeightId" alignment="CENTER_RIGHT" textFill="WHITE">
+                     <padding>
+                        <Insets left="6.0" right="3.0" />
+                     </padding>
+                     <font>
+                        <Font name="Microsoft YaHei" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="blockHeightSeparator" prefWidth="10.0" text="/" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="Microsoft YaHei" size="14.0" />
+                     </font></Label>
+                  <Label fx:id="netNewestHeightId" alignment="CENTER" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="Microsoft YaHei" size="14.0" />
+                     </font></Label>
+               </children>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT">
+               <children>
+                  <ImageView fx:id="netInfoImageViewId" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/network_icon.png" />
+                     </image>
+                      
+                  </ImageView>
+                  <Label fx:id="networkInfosNumId" alignment="CENTER" contentDisplay="RIGHT" prefHeight="15.0" prefWidth="22.0" text="0" textFill="WHITE" textOverrun="CLIP">
+                     <font>
+                        <Font name="Microsoft YaHei" size="14.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip fx:id="networkInfosTipId" text="0" />
+                     </tooltip></Label>
+               </children>
+            </HBox>
+         </children>
+    </HBox>
+      <VBox fx:id="menuId" prefHeight="600.0" prefWidth="92.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+          <Button fx:id="accountInfoId" lineSpacing="50.0" maxHeight="53.0" maxWidth="188.0" minHeight="53.0" minWidth="188.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="188.0" text="账户信息">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+           <Button fx:id="sendAmountId" lineSpacing="20.0" maxHeight="53.0" maxWidth="188.0" minHeight="53.0" minWidth="188.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="188.0" text="转账">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="transactionRecordId" maxHeight="53.0" maxWidth="188.0" minHeight="53.0" minWidth="188.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="188.0" text="交易记录">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="consensusRecordId" maxHeight="53.0" maxWidth="188.0" minHeight="53.0" minWidth="188.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="188.0" text="共识节点">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="sellerRecordId" maxHeight="53.0" maxWidth="188.0" minHeight="53.0" minWidth="188.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="188.0" text="商家列表">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="systemSettingsId" maxHeight="53.0" maxWidth="188.0" minHeight="53.0" minWidth="188.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="188.0" text="系统信息">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="applicationListId" maxHeight="53.0" maxWidth="188.0" minHeight="53.0" minWidth="188.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="188.0" text="应用列表">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </VBox>
+  </children>
+</AnchorPane>
