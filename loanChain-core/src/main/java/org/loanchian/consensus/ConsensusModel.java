@@ -10,8 +10,10 @@ public class ConsensusModel {
 
     //共识申请交易ID
     private Sha256Hash txid;
+
     //申请人
     private byte[] applicant;
+
     //打包人
     private byte[] packager;
 

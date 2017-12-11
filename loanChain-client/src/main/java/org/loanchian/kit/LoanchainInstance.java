@@ -46,19 +46,12 @@ public class LoanchainInstance {
 	
 	/**
 	 * 启动核心
-	 * @param netType 网络类型，1正式网络，2测试网络
+	 * @param initListener
 	 * @throws IOException
 	 */
-	public void startup(int netType, Listener initListener) {
+	public void startup(Listener initListener) {
 		// 通过Spring启动服务器
-		String[] xmls = null;
-		if(netType == 1) {
-			xmls = new String[] {"classpath:/applicationContext.xml" };
-		} else if(netType == 2) {
-			xmls = new String[] {"classpath:/applicationContext.xml" };
-		} else {
-			xmls = new String[] {"classpath:/applicationContext.xml" };;
-		}
+		String[] xmls =  new String[] {"classpath:/applicationContext.xml" };
 
 		try {
 			springContext = new ClassPathXmlApplicationContext(xmls);
@@ -86,7 +79,11 @@ public class LoanchainInstance {
 
 	}
 
-	
+	/**
+	 * 关闭spring核心
+	 * @throws BeansException
+	 * @throws IOException
+	 */
 	public void shutdown() throws BeansException, IOException {
 
 		springContext.stop();

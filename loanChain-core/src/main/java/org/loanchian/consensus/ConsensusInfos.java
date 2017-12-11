@@ -14,6 +14,7 @@ public class ConsensusInfos {
 
 	/** 获取的结果是不确定的 **/
 	public final static int RESULT_UNCERTAIN = 0;
+
 	/** 获取的结果是确定的 **/
 	public final static int RESULT_SUCCESS = 1;
 	

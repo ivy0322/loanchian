@@ -27,13 +27,15 @@ public class VersionService {
 	
 	private static final String VERSION_SAVE_FILE = Configure.DATA_DIR + "/.version";
 
-	private static final String UPDATE_DOMAIN = "http://update.inchain.org";
+	private static final String UPDATE_DOMAIN = "http://update.loanchain.org";
 	
 	private boolean runing;
 	
 	private int runModel;
+
 	//是否有新版本
 	private boolean hasNew;
+
 	private JSONObject versionJsonInfo;
 	
 	@PostConstruct

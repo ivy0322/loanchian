@@ -84,10 +84,13 @@ public class AppKit {
 	public void start() throws IOException {
 		//初始化节点管理器
 		initPeerKit();
+
 		//检查区块数据
 		initBlock();
+
 		//初始化帐户信息
 		initAccountKit();
+
 		//初始化挖矿
 		initMining();
 		

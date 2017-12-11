@@ -30,28 +30,38 @@ public class Account implements Cloneable {
 
 	private NetworkParams network;
 
-	//账户类型
+	//账户类型 111 - 普通账户 65 认证账户
 	private int accountType;
+
 	//帐户状态
 	private byte status;
+
 	//帐户地址
 	private Address address;
+
 	//认证账户签发上级hash160
 	private byte[] supervisor;
+
 	private int level;
+
 	//私匙种子
 	private byte[] priSeed;
+
 	//管理公匙
 	private byte[][] mgPubkeys;
+
 	//交易公匙
 	private byte[][] trPubkeys;
+
 	//帐户主体
 	private AccountBody body;
+
 	//帐户信息签名
 	private byte[][] signs;
 
 	//解密后的管理私钥
 	private ECKey[] mgEckeys;
+
 	//解密后的交易私钥
 	private ECKey[] trEckeys;
 
@@ -97,7 +107,6 @@ public class Account implements Cloneable {
 			}else{
 				bos.write(0);
 			}
-
 
 			if(mgPubkeys != null) {
 				for (byte[] mgPubkey : mgPubkeys) {
@@ -181,6 +190,7 @@ public class Account implements Cloneable {
 		account.setAddress(address);
 		cursor += 20;
 
+		//普通账户地址版本号
 		if(type == network.getSystemAccountVersion()) {
 			//私匙
 			int length = datas[cursor] & 0xff;
@@ -212,7 +222,7 @@ public class Account implements Cloneable {
 
 			//eckey
 			account.resetKey();
-		} else if(type == network.getCertAccountVersion()) {
+		} else if(type == network.getCertAccountVersion()) { //认证账户地址版本号
 			byte[] supervisor = readBytes(cursor, 20, datas);
 			account.setSupervisor(supervisor);
 			cursor += 20;
@@ -274,7 +284,6 @@ public class Account implements Cloneable {
 			cursor += length;
 
 			account.setSigns(new byte[][] {sign1, sign2});
-
 
 		}
 		int extendlen = 0;

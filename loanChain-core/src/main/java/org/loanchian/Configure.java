@@ -43,11 +43,6 @@ public final class Configure {
 			in.close();
 		}
     }
-    
-	/**
-	 * 运行模式，1主网， 2 测试网络，3 单元测试
-	 */
-	public final static int RUN_MODE = getProperty("run.mode", 2);
 	
 	/**
 	 * 网络中默认的p2p端口,一般是指没有自已修改过端口的服务节点，使用的是该类端口

@@ -1718,17 +1718,17 @@ public class RPCServiceImpl implements RPCService {
 
 		JSONObject json = new JSONObject();
 
-		//判断信用是否足够
-		long cert = getAccountCredit(null);
-
-		BlockHeader bestBlockHeader = network.getBestBlockHeader();
-		long consensusCert = ConsensusCalculationUtil.getConsensusCredit(bestBlockHeader.getHeight());
-
-		if(cert < consensusCert) {
-			json.put("success", false);
-			json.put("message", "信用值不够,不能参加共识,当前"+cert+",共识所需"+consensusCert+",还差"+(consensusCert - cert));
-			return json;
-		}
+//		//判断信用是否足够
+//		long cert = getAccountCredit(null);
+//
+//		BlockHeader bestBlockHeader = network.getBestBlockHeader();
+//		long consensusCert = ConsensusCalculationUtil.getConsensusCredit(bestBlockHeader.getHeight());
+//
+//		if(cert < consensusCert) {
+//			json.put("success", false);
+//			json.put("message", "信用值不够,不能参加共识,当前"+cert+",共识所需"+consensusCert+",还差"+(consensusCert - cert));
+//			return json;
+//		}
 
 		//判断账户是否加密
 		if(accountKit.accountIsEncrypted(Definition.TX_VERIFY_TR) && password == null) {

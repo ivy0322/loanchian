@@ -22,7 +22,6 @@ public class WeChatCodeController extends DailogController {
 
 	public ImageView codeImage;
 
-
 	public void initialize() {
 		Account account = null;
 		try {

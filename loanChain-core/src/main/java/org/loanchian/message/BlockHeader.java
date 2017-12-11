@@ -28,24 +28,34 @@ public class BlockHeader extends Message {
 
 	//区块版本
 	protected long version;
+
 	//区块hash
 	protected Sha256Hash hash;
+
 	//上一区块hash
 	protected Sha256Hash preHash;
+
 	//梅克尔树根节点hash
 	protected Sha256Hash merkleHash;
+
 	//时间戳，单位（秒）
 	protected long time;
+
 	//区块高度
 	protected long height;
+
 	//交易数
 	protected long txCount;
+
 	//该时段共识人数
 	protected int periodCount;
+
 	//本轮开始的时间点，单位（秒）
 	protected long periodStartTime;
+
 	//时段，一轮共识中的第几个时间段，可验证对应的共识人
 	protected int timePeriod;
+
 	//签名脚本，包含共识打包人信息和签名，签名是对以上信息的签名
 	protected byte[] scriptBytes;
 	protected Script scriptSig;

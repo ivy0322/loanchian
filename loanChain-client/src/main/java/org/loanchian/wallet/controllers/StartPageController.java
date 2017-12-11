@@ -68,7 +68,7 @@ public class StartPageController {
 		};
 		
     	LoanchainInstance instance = LoanchainInstance.getInstance();
-		instance.startup(Configure.RUN_MODE, appKitInitListener);
+		instance.startup(appKitInitListener);
     }
     
     /*

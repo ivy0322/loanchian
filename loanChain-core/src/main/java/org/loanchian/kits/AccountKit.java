@@ -1814,8 +1814,8 @@ public class AccountKit {
 	}
 
 	/*
- * 交易选择 -- 优先使用零钱
- */
+	 * 交易选择 -- 优先使用零钱
+	 */
 	private void transferPreferredWithSmallChangeMulUser(Coin amount, HashMap<String, List<TransactionOutput>> lessThanList,
 														 HashMap<String, List<TransactionOutput>> moreThanList, HashMap<String, List<TransactionOutput>> thisOutputs) {
 		if(lessThanList.size() > 0) {
@@ -2118,6 +2118,9 @@ public class AccountKit {
 		//强制交易密码和帐户管理密码不一样
 		Utils.checkState(!mgPw.equals(trPw), "账户管理密码和交易密码不能一样");
 
+        System.out.println(network.getSystemAccountVersion() + "====");
+
+		System.out.println(Address.fromBase58(network,managerAddress).getVersion() + "------" + network.getSystemAccountVersion());
 		if(Address.fromBase58(network,managerAddress).getVersion()==network.getSystemAccountVersion()) {
 			throw new VerificationException("系统账户不具备该权限");
 		}
@@ -3607,8 +3610,6 @@ public class AccountKit {
 		return false;
 	}
 
-
-
 	/**
 	 * 注册成为共识节点
 	 * @return Result
@@ -3616,11 +3617,17 @@ public class AccountKit {
 	public Result registerConsensus(String packagerAddress) {
 		//选取第一个可注册共识的账户进行广播
 		try {
+			// 获取最新区块头
 			BlockHeader bestBlockHeader = network.getBestBlockHeader();
 
+			// 获取默认账户
 			Account account = getDefaultAccount();
 
+			//获取账户存储信息
 			AccountStore accountStore = chainstateStoreProvider.getAccountInfo(account.getAddress().getHash160());
+
+			//这里判断默认账户是否为空，并且默认账户的信用值是否大于等于1
+			// 同时判断账户是否为空，即没有共识账户 以及信用值为0
 			if((accountStore != null && accountStore.getCert() >= ConsensusCalculationUtil.getConsensusCredit(bestBlockHeader.getHeight()))
 					|| (ConsensusCalculationUtil.getConsensusCredit(bestBlockHeader.getHeight()) <= 0l && accountStore == null)) {
 
@@ -3636,7 +3643,7 @@ public class AccountKit {
 				//选择输入
 				List<TransactionOutput> fromOutputs = selectNotSpentTransaction(recognizance, account.getAddress());
 				if(fromOutputs == null || fromOutputs.size() == 0) {
-					return new Result(false, "余额不足,不能申请共识;当前共识人数" + currentConsensusSize + ",所需保证金 " + recognizance.toText() + " INS");
+					return new Result(false, "余额不足,不能申请共识;当前共识人数" + currentConsensusSize + ",所需保证金 " + recognizance.toText() + " LCC");
 				}
 				//是否有指定的打包人
 				byte[] packager = null;

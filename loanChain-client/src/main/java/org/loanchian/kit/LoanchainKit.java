@@ -43,34 +43,28 @@ public class LoanchainKit {
 		return INSTANCE;
 	}
 
+	/**
+	 * 启动项目 核心
+	 * @throws IOException
+	 */
 	public void startup() throws IOException {
 		// 通过Spring启动服务器
 		new Thread() {
 			public void run() {
-				try { 
-					
-					String[] xmls = null;
-					if(Configure.RUN_MODE == 1) {
-						xmls = new String[] {"classpath:/applicationContext.xml" };
-					} else if(Configure.RUN_MODE == 2) {
-						xmls = new String[] {"classpath:/applicationContext.xml" };
-					} else {
-						xmls = new String[] {"classpath:/applicationContext.xml" };
-					}
+				try {
+					String[] xmls  = new String[] {"classpath:/applicationContext.xml" };
 
 					springContext = new ClassPathXmlApplicationContext(xmls);
 					
 					springContext.start();
 
+					//在此启动项目核心
 					AppKit appKit = springContext.getBean(AppKit.class);
 					appKit.startSyn();
-					
+
+					//版本检测
 					VersionService versionService = springContext.getBean(VersionService.class);
 					versionService.setRunModel(1);
-					
-//					//链接测试节点
-//					TestNetworkParams network = springContext.getBean(TestNetworkParams.class);
-//					network.getSeedManager().add(new Seed(new InetSocketAddress("192.168.1.100", 6881)));
 					
 					log.info("Server启动成功。");
 
@@ -105,6 +99,10 @@ public class LoanchainKit {
 		}
 	}
 
+	/**
+	 * 关闭服务
+	 * @throws IOException
+	 */
 	public void shutdown() throws IOException {
 
 		if (serverSocket != null && !serverSocket.isClosed()) {

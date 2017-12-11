@@ -31,6 +31,7 @@ public class ConsensusPoolCacher implements ConsensusPool {
 
 	@Autowired
 	private NetworkParams network;
+
 	@Autowired
 	private ChainstateStoreProvider chainstateStoreProvider;
 	

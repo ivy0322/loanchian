@@ -22,16 +22,22 @@ public class Address {
 	
 	//base58的长度
 	public static final int HASH_LENGTH = 25;
+
 	//address 的 RIPEMD160 长度
     public static final int LENGTH = 20;
+
     //所处网络环境
     protected transient NetworkParams network;
+
     //版本
     protected final int version;
+
     //内容
     protected byte[] bytes;
+
     //最新余额
     protected Coin balance;
+
     //等待中的余额
     protected Coin unconfirmedBalance;
     

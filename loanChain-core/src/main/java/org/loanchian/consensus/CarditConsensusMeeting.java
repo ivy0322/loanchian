@@ -49,10 +49,13 @@ public class CarditConsensusMeeting implements ConsensusMeeting {
 	/** 会议状态 **/
 	/** 等待就绪 **/
 	public final static int MEETING_STATUS_WAIT_READY = 1;
+
 	/** 就绪完成，等待开始 **/
 	public final static int MEETING_STATUS_WAIT_BEGIN = 2;
+
 	/** 共识中 **/
 	public final static int MEETING_STATUS_CONSENSUS = 3;
+
 	/** 共识中，接受下一轮选举 **/
 	public final static int MEETING_STATUS_CONSENSUS_WAIT_NEXT = 4;
 	
@@ -81,17 +84,22 @@ public class CarditConsensusMeeting implements ConsensusMeeting {
 
 	//当前共识账号
 	private Account account;
+
 	//当前轮共识信息
 	private MeetingItem currentMetting;
+
 	//上几轮的共识信息
 	private List<MeetingItem> oldMettings = new ArrayList<MeetingItem>();
 
 	//是否允许打包
 	private boolean canPackage;
+
 	//是否正在打包中
 	private boolean packageing;
+
 	//共识调度器状态，0等待初始化，1初始化中，2初始化成功，共识中，3初始化失败
 	private int meetingStatus = 0;
+
 	//共识轮数
 	private AtomicInteger meetingRound = new AtomicInteger();
 
@@ -251,9 +259,14 @@ public class CarditConsensusMeeting implements ConsensusMeeting {
 		currentMetting.startConsensus();
 		meetingRound.incrementAndGet();
 		 if(currentMetting.getMyPackageTime() > 0) {
-			 log.info("一轮结束，切换新一轮共识 , 开始时间 {} , 结束时间 {} , 我的时间 {}", DateUtil.convertDate(new Date(currentMetting.getPeriodStartTime() * 1000)), DateUtil.convertDate(new Date(currentMetting.getPeriodEndTime() * 1000)), DateUtil.convertDate(new Date(currentMetting.getMyPackageTime() * 1000)));
+			 log.info("一轮结束，切换新一轮共识 , 开始时间 {} , 结束时间 {} , 我的时间 {}",
+					 DateUtil.convertDate(new Date(currentMetting.getPeriodStartTime() * 1000)),
+					 DateUtil.convertDate(new Date(currentMetting.getPeriodEndTime() * 1000)),
+					 DateUtil.convertDate(new Date(currentMetting.getMyPackageTime() * 1000)));
 		 }else {
-			 log.info("一轮结束，切换新一轮共识 , 开始时间 {} , 结束时间 {}", DateUtil.convertDate(new Date(currentMetting.getPeriodStartTime() * 1000)), DateUtil.convertDate(new Date(currentMetting.getPeriodEndTime() * 1000)));
+			 log.info("一轮结束，切换新一轮共识 , 开始时间 {} , 结束时间 {}",
+					 DateUtil.convertDate(new Date(currentMetting.getPeriodStartTime() * 1000)),
+					 DateUtil.convertDate(new Date(currentMetting.getPeriodEndTime() * 1000)));
 		 }
 	}
 
@@ -828,6 +841,7 @@ public class CarditConsensusMeeting implements ConsensusMeeting {
 	@Override
 	public ConsensusInfos getCurrentConsensusInfos(long periodStartTime, int timePeriod) {
 		if(currentMetting == null) {
+			System.out.println("是否为空");
 			//可能原因，还没有同步完？
 			return ConsensusInfos.UNCERTAIN;
 		}

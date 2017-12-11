@@ -9,18 +9,25 @@ public class MiningInfos {
 
 	//我的时段
 	private int timePeriod;
+
 	//当前时段总数，也就是参与共识的人数
 	private int periodCount;
+
 	//当前轮开始时间
 	private long periodStartTime;
+
 	//当前轮结束时间
 	private long periodEndTime;
+
 	//我的账户hash
 	private byte[] hash160;
+
 	//我的委托人
 	private byte[] commissioned;
+
 	//我的时段开始时间
 	private long beginTime;
+
 	//我的时段结束时间
 	private long endTime;
 	

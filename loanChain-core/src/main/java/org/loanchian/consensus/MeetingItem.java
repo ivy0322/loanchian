@@ -30,22 +30,31 @@ public class MeetingItem implements Cloneable {
 	
 	//上一轮的偏移
 	private long diffCount;
+
 	//本轮对应的开始时间点，单位秒
 	private long periodStartTime;
+
 	//当前轮结束时间，单位秒
 	private long periodEndTime;
+
 	//本轮的共识状态
 	private int status;
 	
 	//我是否已经打过包了
 	private boolean hasPackage;
+
 	//我的hash160
 	private byte[] myHash160;
+
 	//我的委托人
 	private byte[] commissioned;
+
 	//我的打包时间
 	private long myPackageTime;
+
+	//我的打包结束时间
 	private long myPackageTimeEnd;
+
 	private int index;
 	
 	//是否初始化完成
