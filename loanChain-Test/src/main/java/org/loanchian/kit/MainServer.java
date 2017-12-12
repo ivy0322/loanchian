@@ -49,14 +49,7 @@ public class MainServer {
 			public void run() {
 				try { 
 					
-					String[] xmls = null;
-					if(Configure.RUN_MODE == 1) {
-						xmls = new String[] { "classpath:/applicationContext-mainnet.xml", "classpath:/applicationContext.xml" };
-					} else if(Configure.RUN_MODE == 2) {
-						xmls = new String[] { "classpath:/applicationContext-testnet.xml", "classpath:/applicationContext.xml" };
-					} else {
-						xmls = new String[] { "classpath:/applicationContext-unit.xml", "classpath:/applicationContext.xml" };
-					}
+					String[] xmls = new String[] { "classpath:/applicationContext-mainnet.xml", "classpath:/applicationContext.xml" };
 
 					springContext = new ClassPathXmlApplicationContext(xmls);
 					

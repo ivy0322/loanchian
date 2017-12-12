@@ -19,14 +19,14 @@ public final class Definition {
 
 
 	/**
-     * Inchain 核心程序版本
+     * Loanchain 核心程序版本
      */
-    public static final String INCHAIN_VERSION = "1.03";
+    public static final String LOANCHAIN_VERSION = "0.0.1";
 
     /**
      * 版本完整信息
      */
-    public static final String LIBRARY_SUBVER = "inchain core v" + INCHAIN_VERSION + "";
+    public static final String LIBRARY_SUBVER = "loanchain core v" + LOANCHAIN_VERSION + "";
     
 	public static final long VERSION = 1;
 	

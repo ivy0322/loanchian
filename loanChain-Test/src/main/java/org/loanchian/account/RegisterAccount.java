@@ -16,14 +16,8 @@ public class RegisterAccount {
 
 	public static void main(String[] args) throws Exception {
 		
-		String[] xmls = null;
-		if(Configure.RUN_MODE == 1) {
-			xmls = new String[] { "classpath:/classpath:/applicationContext.xml" };
-		} else if(Configure.RUN_MODE == 2) {
-			xmls = new String[] { "classpath:/classpath:/applicationContext.xml" };
-		} else {
-			xmls = new String[] { "classpath:/classpath:/applicationContext.xml" };
-		}
+		String[] xmls = new String[] { "classpath:/classpath:/applicationContext.xml" };
+
 
 		ClassPathXmlApplicationContext springContext = new ClassPathXmlApplicationContext(xmls);
 		
