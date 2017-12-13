@@ -104,7 +104,7 @@ public final class Configure {
 	/**
 	 * 区块生成间隔时间，单位秒
 	 */
-	public final static int BLOCK_GEN_TIME = 10;
+	public final static int BLOCK_GEN_TIME = 30;
 
 	/**
 	 * 区块生成间隔时间，单位豪秒
@@ -320,5 +320,4 @@ public final class Configure {
 			return result;
 		}
     }
-
 }
