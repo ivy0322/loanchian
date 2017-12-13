@@ -33,9 +33,9 @@ public class MainNetworkParams extends NetworkParams {
 
 		this.seedManager = new RemoteSeedManager();
 
-		seedManager.add(new Seed(new InetSocketAddress("192.168.1.5", Configure.PORT)));
-		seedManager.add(new Seed(new InetSocketAddress("192.168.1.6", Configure.PORT)));
-		seedManager.add(new Seed(new InetSocketAddress("192.168.1.3", Configure.PORT)));
+		seedManager.add(new Seed(new InetSocketAddress("183.226.21.34", Configure.PORT)));//宽带
+		seedManager.add(new Seed(new InetSocketAddress("223.104.25.85", Configure.PORT)));//yy手机
+		seedManager.add(new Seed(new InetSocketAddress("123.147.248.89", Configure.PORT)));//cj手机
 //		seedManager.add(new Seed(new InetSocketAddress("116.62.135.185", Configure.PORT)));
 //		seedManager.add(new Seed(new InetSocketAddress("116.62.117.200", Configure.PORT)));
 //		seedManager.add(new Seed(new InetSocketAddress("47.92.4.19", Configure.PORT)));
