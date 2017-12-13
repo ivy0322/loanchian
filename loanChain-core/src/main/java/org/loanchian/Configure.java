@@ -136,6 +136,8 @@ public final class Configure {
 	 * 与帐户有关的交易存储目录
 	 */
 	public static String DATA_TRANSACTION = DATA_DIR + File.separator + "transaction";
+
+
 	
 	/*************  RPC 相关配置  begin  *****************/
 	
@@ -147,18 +149,21 @@ public final class Configure {
 	/**
 	 * RPC 默认端口
 	 */
-	public static int RPC_SERVER_PORT = 8658;
+	public static int RPC_SERVER_PORT = 8158;
 
 	/**
 	 * RPC 默认用户名
 	 */
 	public static String RPC_SERVER_USER = "user";
+
 	/**
 	 * PRC 消息体前缀固定8位记录信息长度
 	 */
 	public static int RPC_HEAD_LENGTH = 8;
 	
 	/*************  RPC 相关配置   end  *****************/
+
+
 	
 
 	/*************  账户相关配置  begin  *****************/
@@ -175,10 +180,12 @@ public final class Configure {
 	 * 账户注册别名所需信用值
 	 */
 	public final static long REG_ALIAS_CREDIT = 1;
+
 	/**
 	 * 修改账户别名需信用达到值
 	 */
 	public final static long UPDATE_ALIAS_CREDIT = 1;
+
 	/**
 	 * 修改账户别名消耗信用值
 	 */
@@ -313,4 +320,5 @@ public final class Configure {
 			return result;
 		}
     }
+
 }

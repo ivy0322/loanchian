@@ -35,7 +35,7 @@ public class MainNetworkParams extends NetworkParams {
 
 		seedManager.add(new Seed(new InetSocketAddress("192.168.1.5", Configure.PORT)));
 		seedManager.add(new Seed(new InetSocketAddress("192.168.1.6", Configure.PORT)));
-//		seedManager.add(new Seed(new InetSocketAddress("101.132.33.140", Configure.PORT)));
+		seedManager.add(new Seed(new InetSocketAddress("192.168.1.3", Configure.PORT)));
 //		seedManager.add(new Seed(new InetSocketAddress("116.62.135.185", Configure.PORT)));
 //		seedManager.add(new Seed(new InetSocketAddress("116.62.117.200", Configure.PORT)));
 //		seedManager.add(new Seed(new InetSocketAddress("47.92.4.19", Configure.PORT)));

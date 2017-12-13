@@ -77,12 +77,15 @@ public class PeerKit {
 	//连接管理器
 	@Autowired
 	private ClientConnectionManager connectionManager;
+
 	//网络
 	@Autowired
 	private NetworkParams network;
+
 	//广播器
 	@Autowired
 	private Broadcaster<Message> broadcaster;
+
 	@Autowired
 	private PeerDiscovery peerDiscovery;
 	
@@ -94,9 +97,13 @@ public class PeerKit {
 	private void start() {
 		
 		Utils.checkNotNull(network);
+
 		Utils.checkNotNull(connectionManager);
+
 		setSuperAllList(peerDiscovery.getAllSeeds());
+
 		init();
+
 		//初始化连接器
 		connectionManager.start();
 		
@@ -132,43 +139,55 @@ public class PeerKit {
 	private void init() {
 
 		connectionManager.setNewInConnectionListener(new NewInConnectionListener() {
+
 			@Override
 			public boolean allowConnection(InetSocketAddress inetSocketAddress) {
+
 				//如果已经主动连接了，就不接收该节点的被动连接,节点探测除外
 				//一个IP最多只允许2个被动连接
 				int count = 0;
+
+				//判断本地地址是否主动连接
 				for (Peer peer : outPeers) {
 					if(peer.getAddress().getAddr().getHostAddress().equals(inetSocketAddress.getAddress().getHostAddress())) {
 						count++;
 					}
 				}
 
+				//判断本地地址是否有被动连接
 				for (Peer peer : inPeers) {
 					if(peer.getAddress().getAddr().getHostAddress().equals(inetSocketAddress.getAddress().getHostAddress())) {
 						count++;
 					}
 				}
 
-
+				//判断茶几节点列表是否有本地地址的连接
 				for (Peer peer : superPeers) {
 					if(peer.getAddress().getAddr().getHostAddress().equals(inetSocketAddress.getAddress().getHostAddress())) {
 						count++;
 					}
 				}
+
+				//判断连接数是否大于等于10
 				if(count >= 10) {
 					return false;
 				}
-				if( inPeers.size() >= DEFAULT_MAX_IN_CONNECTION){
+
+				// 判断被动连接数量 是否大于最大连接数2000
+				if( inPeers.size() > DEFAULT_MAX_IN_CONNECTION){
 					return false;
 				}
-				int superAllowCount = (Configure.IS_SUPER_NODE==1)?Configure.MAX_SUPER_CONNECT_COUNT:Configure.MAX_NORMAL_CONNECT_SUPER_CONNECT_COUNT;
 
-				if( isSuperPeerAddress(inetSocketAddress)  && superPeers.size()>=superAllowCount ){
+				//判断是否是超级节点，如果是超级节点 超级节点之间最大连接数为100，如果是普通节点 连接超级节点的最大连接数为 3
+				int superAllowCount = (Configure.IS_SUPER_NODE == 1) ? Configure.MAX_SUPER_CONNECT_COUNT : Configure.MAX_NORMAL_CONNECT_SUPER_CONNECT_COUNT;
+
+				if( isSuperPeerAddress(inetSocketAddress)  && superPeers.size() >= superAllowCount ){
 					return false;
 				}
 
 				return true;
 			}
+
 			@Override
 			public void connectionOpened(Peer peer) {
 				if(isSuperPeer(peer)){
@@ -180,6 +199,7 @@ public class PeerKit {
 				
 				connectionOnChange(true);
 			}
+
 			@Override
 			public void connectionClosed(Peer peer) {
 				if(isSuperPeer(peer)){
@@ -194,7 +214,9 @@ public class PeerKit {
 		});
 	}
 
-	//ping task
+	/**
+	 * ping 节点是否能够ping通，ping不通的节点 直接关闭并从主动连接节点或者超级节点中移除
+	 */
 	private void startPingTask() {
 		executor.scheduleWithFixedDelay(new Runnable() {
 			@Override
@@ -203,26 +225,21 @@ public class PeerKit {
 					try {
 						peer.ping().get(5, TimeUnit.SECONDS);
 					} catch (Exception e) {
-						//无法Ping通的就断开吧
+						//无法Ping通的情况下断开连接并从主动连接节点集合列表移除
 						log.info("节点{}无法Ping通，{}", peer.getAddress(), TimeService.currentTimeMillis());
 						peer.close();
 						outPeers.remove(peer);
-//						if(!network.blockIsNewestStatus()) {
-//							peer.close();
-//						}
 					}
 				}
+
 				for (Peer peer : superPeers) {
 					try {
 						peer.ping().get(5, TimeUnit.SECONDS);
 					} catch (Exception e) {
-						//无法Ping通的就断开吧
+						//无法Ping通的情况下断开连接并从超级节点集合列表移除
 						log.info("超级节点{}无法Ping通，{}", peer.getAddress(), TimeService.currentTimeMillis());
 						peer.close();
 						superPeers.remove(peer);
-//						if(!network.blockIsNewestStatus()) {
-//							peer.close();
-//						}
 					}
 				}
 			}
@@ -234,12 +251,12 @@ public class PeerKit {
 		//启动节点探测服务
 		executor.scheduleWithFixedDelay(new PeerStatusManager(), 2, 10, TimeUnit.SECONDS);
 		
-		//检查本机是否需要上报地址
+		//检查本机是否需要上报地址 minConnectionCount 最小连接数 1 ，
 		waitForPeers(minConnectionCount, checkBroadcastAddrListener);
 	}
 	
 	/**
-	 * 重置所以节点
+	 * 重置所有节点
 	 */
 	public void resetPeers() {
 		
@@ -278,6 +295,8 @@ public class PeerKit {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+
+					//检查本机服务是否对外提供，如果提供则上传
 					peerDiscovery.checkMyserviceAndReport();
 				}
 			}.start();
@@ -307,6 +326,7 @@ public class PeerKit {
 						close();
 					}
 				}
+
 				@Override
 				public void connectionClosed() {
 					if(!result.isDone()) {
@@ -336,24 +356,34 @@ public class PeerKit {
 			executor.execute(new Thread(){
 				@Override
 				public void run() {
-					connectionChangedListener.onChanged(inPeers.size(), outPeers.size(),superPeers.size(), inPeers, outPeers,superPeers);
+					connectionChangedListener.onChanged(inPeers.size(), outPeers.size(),superPeers.size(), inPeers, outPeers, superPeers);
 				}
 			});
 		}
 	}
-	
-	//节点状态管理
+
+	/**
+	 * 节点状态管理
+	 */
 	public class PeerStatusManager implements Runnable {
 		@Override
 		public void run() {
 			try {
+				// 匹配握手成功的节点数量
 				int availableSuperPeersCount = getAvailableSuperPeersCount();
-				int needSuperPeersCount = (Configure.IS_SUPER_NODE==1)?Configure.MAX_SUPER_CONNECT_COUNT:Configure.MAX_NORMAL_CONNECT_SUPER_CONNECT_COUNT;
-				if(availableSuperPeersCount<needSuperPeersCount) {
+
+				// 获得节点的最大连接数
+				int needSuperPeersCount = (Configure.IS_SUPER_NODE == 1) ? Configure.MAX_SUPER_CONNECT_COUNT : Configure.MAX_NORMAL_CONNECT_SUPER_CONNECT_COUNT;
+
+				if(availableSuperPeersCount < needSuperPeersCount) {
+
 					List<Seed> superlist = peerDiscovery.getAllSeeds();
+
 					if (superlist != null && superlist.size() > 0 ) {
+
 						for (final Seed seed : superlist) {
-							//排除与自己的连接
+
+							//排除自己与自己的连接
 							if (LOCAL_ADDRESS.contains(seed.getAddress().getAddress().getHostAddress())) {
 								seed.setStaus(Seed.SEED_CONNECT_FAIL);
 								seed.setRetry(false);
@@ -361,12 +391,13 @@ public class PeerKit {
 							}
 
 							//根据配置排除自己的链接
-							String myaddress = System.getenv("loanchian_myaddress");
-							if(myaddress!=null&& myaddress.equals(seed.getAddress().getAddress().getHostAddress())) {
-								seed.setStaus(Seed.SEED_CONNECT_FAIL);
-								seed.setRetry(false);
-								continue;
-							}
+//							String myaddress = System.getenv("loanchian_myaddress");
+//							log.info("这里打印根据配置获取的IP地址信息：" + myaddress);
+//							if(myaddress != null && myaddress.equals(seed.getAddress().getAddress().getHostAddress())) {
+//								seed.setStaus(Seed.SEED_CONNECT_FAIL);
+//								seed.setRetry(false);
+//								continue;
+//							}
 
 							//判断是否已经进行过连接，和一个ip只保持一个连接
 							if (hasConnected(seed.getAddress().getAddress())) {
@@ -383,7 +414,7 @@ public class PeerKit {
 									peerDiscovery.refreshSeedStatus(seed);
 
 									//加入超级连接列表
-									if(superPeers.size()<needSuperPeersCount) {
+									if(superPeers.size() < needSuperPeersCount) {
 										superPeers.add(this);
 									}else {
 										seed.setStaus(Seed.SEED_CONNECT_WAIT);
@@ -410,6 +441,7 @@ public class PeerKit {
 				}
 
 				int availablePeersCount = getAvailablePeersCount();
+
 				if(availablePeersCount >= maxConnectionCount) {
 					return;
 				}
@@ -418,7 +450,7 @@ public class PeerKit {
 				if(seedList != null && seedList.size() > 0) {
 					for (final Seed seed : seedList) {
 
-						//排除与自己的连接
+						//排除自己与自己的连接
 						if(LOCAL_ADDRESS.contains(seed.getAddress().getAddress().getHostAddress())) {
 							seed.setStaus(Seed.SEED_CONNECT_FAIL);
 							seed.setRetry(false);
@@ -430,12 +462,12 @@ public class PeerKit {
 						}
 
 						//根据配置排除自己的链接
-						String myaddress = System.getenv("loanchian_myaddress");
-						if(myaddress!=null&& myaddress.equals(seed.getAddress().getAddress().getHostAddress())) {
-							seed.setStaus(Seed.SEED_CONNECT_FAIL);
-							seed.setRetry(false);
-							continue;
-						}
+//						String myaddress = System.getenv("loanchian_myaddress");
+//						if(myaddress!=null&& myaddress.equals(seed.getAddress().getAddress().getHostAddress())) {
+//							seed.setStaus(Seed.SEED_CONNECT_FAIL);
+//							seed.setRetry(false);
+//							continue;
+//						}
 
 						//判断是否已经进行过连接，和一个ip只保持一个连接
 						if(hasConnected(seed.getAddress().getAddress())) {
@@ -582,16 +614,19 @@ public class PeerKit {
 		//握手成功可以进行数据交换的节点数量
 		int count = 0;
 		for (Peer peer : inPeers) {
+			//判断节点是否握手完成
 			if(peer.isHandshake()) {
 				count ++;
 			}
 		}
 		for (Peer peer : outPeers) {
+			//判断节点是否握手完成
 			if(peer.isHandshake()) {
 				count ++;
 			}
 		}
 		for (Peer peer : superPeers) {
+			//判断节点是否握手完成
 			if(peer.isHandshake()) {
 				count ++;
 			}
@@ -633,7 +668,9 @@ public class PeerKit {
 		if(enoughAvailablePeersListener == null) {
 			return;
 		}
+		// 获取所有已经连接的节点
 		List<Peer> foundPeers = findAvailablePeers();
+
 		//如果已连接的节点达到所需，则直接执行回调
 		if (foundPeers.size() >= minConnections) {
 			enoughAvailablePeersListener.callback(foundPeers);
@@ -693,7 +730,7 @@ public class PeerKit {
 	}
 
 	/**
-	 * 已连接并完成握手的节点数量
+	 * 已连接并完成握手的节点数量 这里是所有节点
 	 * @return int
 	 */
 	public int getAvailablePeersCount() {
@@ -717,6 +754,11 @@ public class PeerKit {
 		return count;
 	}
 
+	/**
+	 * 匹配出节点成功握手完成的数量 这里匹配的是超级节点
+	 *
+	 * @return int 超级节点握手完成数量
+	 */
 	public int getAvailableSuperPeersCount(){
 		int count = 0;
 		for (Peer peer : superPeers) {
@@ -769,7 +811,7 @@ public class PeerKit {
 	 * @return int
 	 */
 	public int getConnectedCount() {
-        return inPeers.size() + outPeers.size()+superPeers.size();
+        return inPeers.size() + outPeers.size() + superPeers.size();
 	}
 	
 	/**
@@ -872,7 +914,7 @@ public class PeerKit {
 
 	public boolean isSuperPeer(Peer peer){
 		boolean result = false;
-		for(int i=0;i<superAllList.size();i++){
+		for(int i = 0 ; i < superAllList.size() ; i++){
 			if(superAllList.get(i).getAddress().getHostString().equals(peer.getPeerAddress().getAddr().getHostAddress())){
 				result = true;
 				break;
@@ -882,8 +924,9 @@ public class PeerKit {
 	}
 
 	public boolean isSuperPeerAddress(InetSocketAddress addr){
+
 		boolean result = false;
-		for(int i=0;i<superAllList.size();i++){
+		for(int i = 0 ; i < superAllList.size() ; i++){
 			if(superAllList.get(i).getAddress().getHostString().equals(addr.getAddress().getHostAddress())){
 				result = true;
 				break;
@@ -891,7 +934,10 @@ public class PeerKit {
 		}
 		return result;
 	}
-	
+
+	/**
+	 * 时间偏移所用的内部类
+	 */
 	public static class TimeItem {
 		private long timeOffset;
 		private int count;
@@ -960,5 +1006,9 @@ public class PeerKit {
 
 	public void setSuperAllList(List<Seed> superAllList) {
 		this.superAllList = superAllList;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(IpUtil.getIps());
 	}
 }

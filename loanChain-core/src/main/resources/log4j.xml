@@ -24,14 +24,13 @@
         </filter>      
     </appender>
     
-	<logger name="org.inchain">
+	<logger name="org.loanchian">
 		<level value="info" />
 	</logger>
 
  	<!-- Root Logger -->
 	<root>
 		<priority value="INFO" />
-		
 		<appender-ref ref="console" />
 		<appender-ref ref="out" />
 	</root>
