@@ -22,6 +22,7 @@ public class LevelDB implements Db {
 	private DB db = null;
 	
 	private static final long LEVELDB_READ_CACHE_DEFAULT = 16 * 1048576;
+
     private static final int LEVELDB_WRITE_CACHE_DEFAULT = 2 * 1048576;
     
 	//DB读写缓存大小

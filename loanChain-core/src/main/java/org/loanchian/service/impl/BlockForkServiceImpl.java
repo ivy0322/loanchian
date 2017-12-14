@@ -213,7 +213,7 @@ public class BlockForkServiceImpl implements BlockForkService {
 	 */
 	private boolean processForkBlock(BlockForkStore blockForkStore, List<BlockForkStore> blockForkChains) {
 		
-//		log.info("分叉块：{}", blockForkStore.getBlock());
+		log.info("分叉块：{}", blockForkStore.getBlock());
 		
 		Block block = blockForkStore.getBlock();
 

@@ -1,5 +1,6 @@
 package org.loanchian.utils;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -76,13 +77,5 @@ public class IpUtil {
         }
         return ips;
     }
-
-    public static void main(String []args){
-		Set<String> ips= IpUtil.getIps();
-		Iterator s = ips.iterator();
-		while(s.hasNext()){
-			System.out.println(s.next());
-		}
-	}
     
 }

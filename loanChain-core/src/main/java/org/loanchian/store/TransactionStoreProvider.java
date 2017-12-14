@@ -37,20 +37,25 @@ public class TransactionStoreProvider extends BaseStoreProvider {
 	
 	//存放交易记录账号的key
 	private final static byte[] ADDRESSES_KEY = Sha256Hash.ZERO_HASH.getBytes();
+
 	//交易记录对应的账号列表
 	private List<byte[]> addresses = new CopyOnWriteArrayList<byte[]>();
+
 	//我的交易列表
 	private List<TransactionStore> mineTxList = new CopyOnWriteArrayList<TransactionStore>();
+
 	//未花费的交易
 	private List<TransactionStore> unspendTxList = new CopyOnWriteArrayList<TransactionStore>();
 	
 	//新交易监听器
 	private TransactionListener transactionListener;
+
 	//通知监听器
 	private NoticeListener noticeListener;
 	
 	@Autowired
 	private BlockStoreProvider blockStoreProvider;
+
 	@Autowired
 	private ChainstateStoreProvider chainstateStoreProvider;
 	
@@ -61,6 +66,7 @@ public class TransactionStoreProvider extends BaseStoreProvider {
 	public TransactionStoreProvider(String dir) {
 		super(dir);
 	}
+
 	public TransactionStoreProvider(String dir, long leveldbReadCache, int leveldbWriteCache) {
 		super(dir, leveldbReadCache, leveldbWriteCache);
 	}
@@ -499,12 +505,7 @@ public class TransactionStoreProvider extends BaseStoreProvider {
 					byte[] statueKey = new byte[key.length + 1];
 					System.arraycopy(key, 0, statueKey, 0, key.length);
 					statueKey[statueKey.length - 1] = (byte) i;
-					
-					//交易是否已花费
-//					byte[] content = chainstateStoreProvider.getBytes(statueKey);
-//					if(content == null) {
-//						continue;
-//					}
+
 					//交易是否已花费
 					if(status != null && status.length > 0 && status[i] == TransactionStore.STATUS_USED) {
 						continue;
@@ -580,16 +581,6 @@ public class TransactionStoreProvider extends BaseStoreProvider {
 					if(status[i] == TransactionStore.STATUS_USED) {
 						continue;
 					}
-//					
-//					//链上状态是否可用
-//					byte[] statueKey = new byte[key.length + 1];
-//					System.arraycopy(key, 0, statueKey, 0, key.length);
-//					statueKey[statueKey.length - 1] = (byte) i;
-//					
-//					byte[] content = chainstateStoreProvider.getBytes(statueKey);
-//					if(content == null) {
-//						continue;
-//					}
 					
 					//本笔输出是否可用
 					long lockTime = output.getLockTime();

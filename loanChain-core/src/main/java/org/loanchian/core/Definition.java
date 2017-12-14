@@ -59,20 +59,9 @@ public final class Definition {
 	public static final int TYPE_CERT_ACCOUNT_REGISTER = 11;
 	/** 认证账户修改信息 **/
 	public static final int TYPE_CERT_ACCOUNT_UPDATE = 12;
-	/** 商家关联子账户 **/
-	public static final int TYPE_RELEVANCE_SUBACCOUNT = 13;
-	/** 商家解除子账户的关联 **/
-	public static final int TYPE_REMOVE_SUBACCOUNT = 14;
 
 	public static final int TYPE_CERT_ACCOUNT_REVOKE = 15;
 
-
-	/** 资产登记 **/
-	public static final int TYPE_ASSETS_REGISTER = 30;
-	/** 资产发行 **/
-	public static final int TYPE_ASSETS_ISSUED = 31;
-	/** 资产转让 **/
-	public static final int TYPE_ASSETS_TRANSFER = 32;
 	
 	public static final int TX_VERIFY_MG = 1;				//脚本认证，账户管理类
 	public static final int TX_VERIFY_TR = 2;				//脚本认证，交易类
@@ -103,17 +92,21 @@ public final class Definition {
 	 */
 	public static boolean isPaymentTransaction(int type) {
 		return type == TYPE_COINBASE || type == TYPE_PAY || type == TYPE_REG_CONSENSUS
-				|| type == TYPE_REM_CONSENSUS || type == TYPE_VIOLATION || type == TYPE_ASSETS_REGISTER;
+				|| type == TYPE_REM_CONSENSUS || type == TYPE_VIOLATION ;
 	}
 	
 	//交易关联
 	public static final Map<Integer, Class<? extends Message>> TRANSACTION_RELATION = new HashMap<Integer, Class<? extends Message>>();
+
 	//消息命令关联
 	public static final Map<Class<? extends Message>, String> MESSAGE_COMMANDS = new HashMap<Class<? extends Message>, String>();
+
 	//命令消息关联
 	public static final Map<String, Class<? extends Message>> COMMANDS_MESSAGE = new HashMap<String, Class<? extends Message>>();
+
 	//消息对应处理器
     public static final Map<Class<? extends Message>, String> PROCESS_FACTORYS = new HashMap<Class<? extends Message>, String>();
+
 	//交易命令
 	public static final Set<String> TRANSACTION_COMMANDS = new HashSet<>();
 
@@ -141,17 +134,10 @@ public final class Definition {
     	PROCESS_FACTORYS.put(CertAccountRegisterTransaction.class, "transactionMessageProcess");
     	PROCESS_FACTORYS.put(CertAccountUpdateTransaction.class, "transactionMessageProcess");
 		PROCESS_FACTORYS.put(CertAccountRevokeTransaction.class, "transactionMessageProcess");
-    	PROCESS_FACTORYS.put(RelevanceSubAccountTransaction.class, "transactionMessageProcess");
-    	PROCESS_FACTORYS.put(RemoveSubAccountTransaction.class, "transactionMessageProcess");
     	PROCESS_FACTORYS.put(RegConsensusTransaction.class, "transactionMessageProcess");
     	PROCESS_FACTORYS.put(RemConsensusTransaction.class, "transactionMessageProcess");
     	PROCESS_FACTORYS.put(ViolationTransaction.class, "transactionMessageProcess");
     	PROCESS_FACTORYS.put(CreditTransaction.class, "transactionMessageProcess");
-    	
-    	//业务消息处理器
-    	PROCESS_FACTORYS.put(AssetsIssuedTransaction.class, "transactionMessageProcess");
-    	PROCESS_FACTORYS.put(AssetsRegisterTransaction.class, "transactionMessageProcess");
-    	PROCESS_FACTORYS.put(AssetsTransferTransaction.class, "transactionMessageProcess");
 
     	//===========================-分割线=============================//
     	
@@ -177,13 +163,8 @@ public final class Definition {
 		MESSAGE_COMMANDS.put(CertAccountRevokeTransaction.class, "tx_" + TYPE_CERT_ACCOUNT_REVOKE);
 		MESSAGE_COMMANDS.put(RegConsensusTransaction.class, "tx_" + TYPE_REG_CONSENSUS);
 		MESSAGE_COMMANDS.put(RemConsensusTransaction.class, "tx_" + TYPE_REM_CONSENSUS);
-		MESSAGE_COMMANDS.put(RelevanceSubAccountTransaction.class, "tx_" + TYPE_RELEVANCE_SUBACCOUNT);
-		MESSAGE_COMMANDS.put(RemoveSubAccountTransaction.class, "tx_" + TYPE_REMOVE_SUBACCOUNT);
 		MESSAGE_COMMANDS.put(ViolationTransaction.class, "tx_" + TYPE_VIOLATION);
 		MESSAGE_COMMANDS.put(CreditTransaction.class, "tx_" + TYPE_CREDIT);
-		MESSAGE_COMMANDS.put(AssetsIssuedTransaction.class, "tx_" + TYPE_ASSETS_ISSUED);
-		MESSAGE_COMMANDS.put(AssetsRegisterTransaction.class, "tx_" + TYPE_ASSETS_REGISTER);
-		MESSAGE_COMMANDS.put(AssetsTransferTransaction.class, "tx_" + TYPE_ASSETS_TRANSFER);
 
 		//===========================-分割线=============================//
 		TRANSACTION_COMMANDS.add("tx_0");
@@ -194,13 +175,8 @@ public final class Definition {
 		TRANSACTION_COMMANDS.add("tx_" + TYPE_CERT_ACCOUNT_REVOKE);
 		TRANSACTION_COMMANDS.add("tx_" + TYPE_REG_CONSENSUS);
 		TRANSACTION_COMMANDS.add("tx_" + TYPE_REM_CONSENSUS);
-		TRANSACTION_COMMANDS.add("tx_" + TYPE_RELEVANCE_SUBACCOUNT);
-		TRANSACTION_COMMANDS.add("tx_" + TYPE_REMOVE_SUBACCOUNT);
 		TRANSACTION_COMMANDS.add("tx_" + TYPE_VIOLATION);
 		TRANSACTION_COMMANDS.add("tx_" + TYPE_CREDIT);
-		TRANSACTION_COMMANDS.add("tx_" + TYPE_ASSETS_ISSUED);
-		TRANSACTION_COMMANDS.add("tx_" + TYPE_ASSETS_REGISTER);
-		TRANSACTION_COMMANDS.add("tx_" + TYPE_ASSETS_TRANSFER);
 
     	//===========================-分割线=============================//
     	
@@ -213,15 +189,9 @@ public final class Definition {
 		TRANSACTION_RELATION.put(TYPE_CERT_ACCOUNT_REGISTER, CertAccountRegisterTransaction.class);
 		TRANSACTION_RELATION.put(TYPE_CERT_ACCOUNT_UPDATE, CertAccountUpdateTransaction.class);
 		TRANSACTION_RELATION.put(TYPE_CERT_ACCOUNT_REVOKE, CertAccountRevokeTransaction.class);
-		TRANSACTION_RELATION.put(TYPE_RELEVANCE_SUBACCOUNT, RelevanceSubAccountTransaction.class);
-		TRANSACTION_RELATION.put(TYPE_REMOVE_SUBACCOUNT, RemoveSubAccountTransaction.class);
 		TRANSACTION_RELATION.put(TYPE_VIOLATION, ViolationTransaction.class);
 		TRANSACTION_RELATION.put(TYPE_CREDIT, CreditTransaction.class);
 
-		//资产相关
-		TRANSACTION_RELATION.put(TYPE_ASSETS_REGISTER, AssetsRegisterTransaction.class);
-		TRANSACTION_RELATION.put(TYPE_ASSETS_ISSUED, AssetsIssuedTransaction.class);
-		TRANSACTION_RELATION.put(TYPE_ASSETS_TRANSFER, AssetsTransferTransaction.class);
 
     	//===========================-分割线=============================//
     	

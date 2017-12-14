@@ -14,37 +14,39 @@ public final class Coin implements Comparable<Coin>, Serializable {
 
 	private static final long serialVersionUID = 6978149202334427537L;
 
+	/** 代币最小单位位数 8 位  */
 	public static final int SMALLEST_UNIT_EXPONENT = 8;
 
+	// 一个代币 10的8次方
     public static final long COIN_VALUE = (long) Math.pow(10, SMALLEST_UNIT_EXPONENT);
 
     /**
      * 代币总量
      */
-    public static final Coin MAX = Coin.valueOf(100000000).multiply(COIN_VALUE);
-    
+    public static final Coin MAX = Coin.valueOf(1000000000).multiply(COIN_VALUE);
+
     /**
-     * 0个 INS
+     * 0个 代币
      */
     public static final Coin ZERO = Coin.valueOf(0);
 
     /**
-     * 1个 INS
+     * 1个 代币
      */
     public static final Coin COIN = Coin.valueOf(COIN_VALUE);
 
     /**
-     * 0.01 INS
+     * 0.01 代币
      */
     public static final Coin CENT = COIN.divide(100);
 
     /**
-     * 0.001 INS
+     * 0.001 代币
      */
     public static final Coin MILLICOIN = COIN.divide(1000);
 
     /**
-     * 0.000001 INS
+     * 0.000001 代币
      */
     public static final Coin MICROCOIN = MILLICOIN.divide(1000);
 

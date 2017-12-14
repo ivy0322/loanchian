@@ -13,14 +13,18 @@ public class TransactionStore extends Store {
 	
 	//未花费
 	public final static int STATUS_UNUSE = 1;
+
 	//已花费
 	public final static int STATUS_USED = 2;
 	
 	private byte[] key;
+
 	//交易内容
 	private Transaction transaction;
+
 	//交易状态，是否已花费，对应的输出是否花费，多个输出就有多个状态
 	private byte[] status;
+
 	//区块高度
 	private long height;
 	
@@ -95,9 +99,11 @@ public class TransactionStore extends Store {
 	public void setHeight(long height) {
 		this.height = height;
 	}
+
 	public void setStatus(byte[] status) {
 		this.status = status;
 	}
+
 	public byte[] getStatus() {
 		return status;
 	}

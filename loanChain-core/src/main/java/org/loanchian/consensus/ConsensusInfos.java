@@ -20,12 +20,25 @@ public class ConsensusInfos {
 	
 	public static ConsensusInfos UNCERTAIN = new ConsensusInfos(RESULT_UNCERTAIN);
 
+	//返回结果 0 = RESULT_UNCERTAIN , 1 = RESULT_SUCCESS
 	private int result;
+
+	//打包人的账户地址
 	private byte[] hash160;
-	private long beginTime;	//当前共识人的块周期开始时间
-	private long endTime;	//当前共识人的块周期结束时间
-	private long periodStartTime;	//当前轮开始的时间
+
+	//当前共识人的块周期开始时间
+	private long beginTime;
+
+	//当前共识人的块周期结束时间
+	private long endTime;
+
+	//当前轮开始的时间
+	private long periodStartTime;
+
+	//当前共识排列顺序
 	private int index;
+
+	// 当前轮是多少轮
 	private int periodCount;
 	
 	public ConsensusInfos(int result) {
@@ -47,12 +60,15 @@ public class ConsensusInfos {
 	public byte[] getHash160() {
 		return hash160;
 	}
+
 	public void setHash160(byte[] hash160) {
 		this.hash160 = hash160;
 	}
+
 	public int getResult() {
 		return result;
 	}
+
 	public void setResult(int result) {
 		this.result = result;
 	}

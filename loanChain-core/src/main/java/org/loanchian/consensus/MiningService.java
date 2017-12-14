@@ -83,6 +83,7 @@ public final class MiningService implements Mining {
 
 	//运行状态
 	private boolean runing;
+
 	//强制停止状态，在打包过程中检查该参数,默认为0，当为1时进入强制停止状态，为2时代表打包已停止
 	private int forcedStopModel;
 	
@@ -199,9 +200,6 @@ public final class MiningService implements Mining {
 				}
 			}
 		}
-
-		//在这里对transactionList的资产转账交易做特殊处理
- 		this.verifyAssetsTx(transactionList);
 
 		//获取我的时段开始时间
 		MiningInfos miningInfos = consensusMeeting.getMineMiningInfos();
@@ -327,81 +325,6 @@ public final class MiningService implements Mining {
 		}
 	}
 
-	/**
-	 * 这里对资产转让交易做特殊处理
-	 * 为了防止同一账户在一次共识中针对同一个资产重复提交多次转账交易，
-	 * 从而导致总金额已经超过了账户上该资产的余额，
-	 * 出现此情况时，过滤掉超出金额的那部分交易
-	 * @param list
-	 */
-	private void verifyAssetsTx(List<Transaction> list) {
-		if (list == null || list.size() == 0) {
-			return;
-		}
-
-		//此map的结构 Map<账户id, Map<资产id, 对应交易 >>
-		Map<String,Map<String, List<AssetsTransferTransaction>>> map = new HashMap<>();
-		AssetsTransferTransaction transferTx;
-		AssetsRegisterTransaction registerTx;
-		//循环所有交易，将转账交易按照map结构，存放进去
-		for(Transaction tx : list) {
-			if(tx instanceof AssetsTransferTransaction) {
-				//找到资产转让交易
-				transferTx = (AssetsTransferTransaction)tx;
-				//找到对应的注册资产
-				TransactionStore txs =  blockStoreProvider.getTransaction(transferTx.getAssetsHash().getBytes());
-				registerTx = (AssetsRegisterTransaction)txs.getTransaction();
-
-				//生成账户id
-				String userKey = new String(transferTx.getHash160(), Utils.UTF_8);
-				//生成资产id，用资产code作为key
-				String txKey = new String(registerTx.getCode());
-
-				if(!map.containsKey(userKey)) {
-					//如果map里不包含用户，则直接新增
-					Map<String,List<AssetsTransferTransaction>> txMap = new HashMap<>();
-					List<AssetsTransferTransaction> transferList = new ArrayList<>();
-					transferList.add(transferTx);
-					txMap.put(txKey, transferList);
-					map.put(userKey, txMap);
-				}else {
-					//如果用户存在则判断当前交易是否已存在同样的资产注册交易
-					Map<String,List<AssetsTransferTransaction>> txMap = map.get(userKey);
-					if(txMap.containsKey(txKey)) {
-						//存在则直接新增
-						txMap.get(txKey).add(transferTx);
-					}else {
-						List<AssetsTransferTransaction> transferList = new ArrayList<>();
-						transferList.add(transferTx);
-						txMap.put(txKey, transferList);
-					}
-				}
-			}
-		}
-		//循环每一个用户的资产交易集合，判断每一个资产的交易总额是否大于用户余额，
-		//如果大于则在总的交易列表里删除该超出金额的交易，让其作废
-		for (Map.Entry<String,Map<String, List<AssetsTransferTransaction>>> entry : map.entrySet()) {
-			Map<String, List<AssetsTransferTransaction>> txMap = entry.getValue();
-			for(Map.Entry<String, List<AssetsTransferTransaction>> txEntry : txMap.entrySet()) {
-				byte[] txKey = txEntry.getKey().getBytes();
-				//根据userKey和txkey找到对应的账户
-				//求和交易总金额
-				List<AssetsTransferTransaction> txList = txEntry.getValue();
-				byte[] userKey = txList.get(0).getHash160();
-				Assets assets = chainstateStoreProvider.getMyAssetsByCode(userKey, Sha256Hash.hash(txKey));
-				long sum = 0;
-				for(AssetsTransferTransaction tx : txList) {
-					if(sum <= assets.getBalance()) {
-						sum += tx.getAmount();
-					}
-					if(sum > assets.getBalance()) {
-						sum = sum - tx.getAmount();
-						list.remove(tx);
-					}
-				}
-			}
-		}
-	}
 	
 	private void verifyBlockTx(Block block) {
 		List<Transaction> txs = block.getTxs();
@@ -787,10 +710,7 @@ public final class MiningService implements Mining {
 				return true;
 			}
 			ValidatorResult<TransactionValidatorResult> res = transactionValidator.valDo(tx, transactionList);
-			//如果该交易是资产转让交易，需要特殊处理
-			if(!(tx instanceof AssetsTransferTransaction)) {
-				return res.getResult().isSuccess();
-			}
+
 			if(res.getResult().isSuccess() == false) {
 				return false;
 			}

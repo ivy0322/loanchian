@@ -358,67 +358,7 @@ public class TransactionRecordController implements SubPageController {
 							break;
 						}
 					}
-				} else if(tx.getType() == Definition.TYPE_RELEVANCE_SUBACCOUNT) {
-					//关联子账户
-					RelevanceSubAccountTransaction rsatx = (RelevanceSubAccountTransaction) tx;
-					
-					type = "关联账户";
-					
-					detail += "关联子账户：" + rsatx.getAddress().getBase58();
-					
-				} else if(tx.getType() == Definition.TYPE_REMOVE_SUBACCOUNT) {
-					//解除子账户的关联
-					RemoveSubAccountTransaction rsatx = (RemoveSubAccountTransaction) tx;
-					
-					type = "关联解除";
-					
-					detail += "解除与账户：" + rsatx.getAddress().getBase58() + " 的关联";
-					
-				}
-				else if(tx.getType() == Definition.TYPE_ASSETS_REGISTER) {
-					//资产注册
-					AssetsRegisterTransaction artx = (AssetsRegisterTransaction)tx;
-					isSendout = true;
-					type = "资产注册";
-					detail += "名称：" + new String(artx.getName(), Utils.UTF_8) + "\n";
-					detail += "描述：" + new String(artx.getDescription(), Utils.UTF_8) + "\n";
- 					detail += "代码：" + new String(artx.getCode(), Utils.UTF_8) + "\n";
-				}
-				else if(tx.getType() == Definition.TYPE_ASSETS_ISSUED) {
-					AssetsIssuedTransaction issuedTx = (AssetsIssuedTransaction)tx;
-					type = "资产发行";
-					TransactionStore txStore = LoanchainInstance.getInstance().getAccountKit().getTransaction(issuedTx.getAssetsHash());
-					AssetsRegisterTransaction artx = (AssetsRegisterTransaction)txStore.getTransaction();
-					detail += "名称：" + new String(artx.getName(), Utils.UTF_8) + "\n";
-					detail += "代码：" + new String(artx.getCode(), Utils.UTF_8) + "\n";
-					detail += "发行金额：" + issuedTx.getAmount() + "\n";
-					AccountStore accountStore = LoanchainInstance.getInstance().getAccountKit().getAccountStore(issuedTx.getReceiver());
-					Address address;
-					if(accountStore == null) {
-						address = new Address(network, issuedTx.getReceiver());
-					}else {
-						address = new Address(network,accountStore.getType(), issuedTx.getReceiver());
-					}
-					detail += "接收人：" + address.getBase58() + "\n";
-				}
-
-				else if(tx.getType() == Definition.TYPE_ASSETS_TRANSFER) {
-					AssetsTransferTransaction transferTx = (AssetsTransferTransaction)tx;
-					type = "资产转让";
-					TransactionStore txStore = LoanchainInstance.getInstance().getAccountKit().getTransaction(transferTx.getAssetsHash());
-					AssetsRegisterTransaction artx = (AssetsRegisterTransaction)txStore.getTransaction();
-					detail += "名称：" + new String(artx.getName(), Utils.UTF_8) + "\n";
-					detail += "代码：" + new String(artx.getCode(), Utils.UTF_8) + "\n";
-					detail += "转让金额：" + transferTx.getAmount() + "\n";
-					AccountStore accountStore = LoanchainInstance.getInstance().getAccountKit().getAccountStore(transferTx.getReceiver());
-					Address address;
-					if(accountStore == null) {
-						address = new Address(network, transferTx.getReceiver());
-					}else {
-						address = new Address(network,accountStore.getType(), transferTx.getReceiver());
-					}
-					detail += "接收人：" + address.getBase58() + "\n";
-				}else if(tx.getType() == Definition.TYPE_CERT_ACCOUNT_REVOKE){
+				} else if(tx.getType() == Definition.TYPE_CERT_ACCOUNT_REVOKE){
 					CertAccountRevokeTransaction revokeTx = (CertAccountRevokeTransaction)tx;
 					type = "账户吊销";
 					byte[] revokedhash = revokeTx.getRevokeHash160();

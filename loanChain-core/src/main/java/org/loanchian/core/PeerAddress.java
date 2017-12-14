@@ -102,6 +102,7 @@ public class PeerAddress extends Message implements Serializable {
         try {
             addr = InetAddress.getByAddress(addrBytes);
         } catch (UnknownHostException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         port = ((0xFF & payload[cursor++]) << 8) | (0xFF & payload[cursor++]);

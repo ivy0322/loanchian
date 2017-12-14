@@ -228,64 +228,6 @@ public interface RPCService {
 	 */
 	JSONObject getTx(String txid) throws JSONException;
 
-	/**
-	 *	资产注册
-	 * @param name 资产名称
-	 * @param description 资产描述
-	 * @param code 资产代号
-	 * @param logo 资产图标
-	 * @param remark 资产描述
-	 * @return
-	 * @throws JSONException
-	 */
-	JSONObject regAssets(String name, String description, String code, String logo, String remark, String address, String password) throws JSONException;
-
-	/**
-	 * 获取资产注册列表
-	 * @return
-	 * @throws JSONException
-	 */
-	JSONObject getAssetsRegList() throws JSONException;
-
-	/**
-	 * 资产发行
-	 * @param code
-	 * @param receiver
-	 * @param amount
-	 * @param address
-	 * @param password
-	 * @return
-	 * @throws JSONException
-	 */
-	JSONObject assetsIssue(String code, String receiver, Long amount, String remark, String address, String password) throws JSONException;
-
-	/**
-	 * 获取资产发行的列表
-	 * @param code
-	 * @return
-	 * @throws JSONException
-	 */
-	JSONObject getAssetsIssueList(String code) throws JSONException;
-
-	/**
-	 * 获取我的资产账户列表
-	 * @return
-	 * @throws Exception
-	 */
-	JSONObject getMineAssets(String address, String password) throws JSONException;
-
-	/**
-	 *  资产转让
-	 * @param code
-	 * @param receiver
-	 * @param amount
-	 * @param remark
-	 * @param address
-	 * @param password
-	 * @return
-	 * @throws JSONException
-	 */
-	JSONObject assetsTransfer(String code, String receiver, Long amount, String remark, String address, String password) throws JSONException;
 
 	/**
 	 * 获取共识节点列表
@@ -431,53 +373,6 @@ public interface RPCService {
 	 */
 	JSONObject broadcastfromfile(String filepath) throws JSONException;
 
-	/**
-	 * 认证商家关联子账户
-	 * @param relevancer
-	 * @param alias
-	 * @param content
-	 * @param trpw
-	 * @param address
-	 * @return JSONObject
-	 * @throws JSONException
-	 */
-	JSONObject relevanceSubAccount(String relevancer, String alias, String content, String trpw, String address) throws JSONException;
-
-	/**
-	 * 解除子账户的关联
-	 * @param relevancer
-	 * @param hashId
-	 * @param trpw
-	 * @param address
-	 * @return JSONObject
-	 * @throws JSONException
-	 */
-	JSONObject removeSubAccount(String relevancer, String hashId, String trpw, String address) throws JSONException;
-
-	/**
-	 * 获取认证商家子账户列表
-	 * @param address
-	 * @return
-	 * @throws JSONException
-	 */
-	JSONObject getSubAccounts(String address) throws JSONException;
-
-	/**
-	 * 获取认证商家子账户数量
-	 * @param address
-	 * @return JSONObject
-	 * @throws JSONException
-	 */
-	JSONObject getSubAccountCount(String address) throws JSONException;
-
-	/**
-	 * 检查是否是商家的子账户
-	 * @param certAddress
-	 * @param address
-	 * @return JSONObject
-	 * @throws JSONException
-	 */
-	JSONObject checkIsSubAccount(String certAddress, String address) throws JSONException;
 
 	/**
 	 * 通过别名获取账户

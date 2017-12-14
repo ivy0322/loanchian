@@ -303,10 +303,6 @@ public class BlockStoreProvider extends BaseStoreProvider {
 				//退出共识
 				chainstateStoreProvider.removeConsensus(tx);
 
-			} else if(tx.getType() == Definition.TYPE_ASSETS_REGISTER) {
-				//资产登记
-				AssetsRegisterTransaction assetsRegisterTx = (AssetsRegisterTransaction) tx;
-				chainstateStoreProvider.assetsRegister(assetsRegisterTx);
 			}
 		} else if(tx.getType() == Definition.TYPE_CERT_ACCOUNT_REGISTER ||
 				tx.getType() == Definition.TYPE_CERT_ACCOUNT_UPDATE) {
@@ -375,14 +371,6 @@ public class BlockStoreProvider extends BaseStoreProvider {
 			}
 			chainstateStoreProvider.put(rtx.getHash().getBytes(), rtx.baseSerialize());
 
-		} else if(tx.getType() == Definition.TYPE_RELEVANCE_SUBACCOUNT) {
-			//认证账户关联子账户
-			RelevanceSubAccountTransaction relevancSubAccountTx = (RelevanceSubAccountTransaction) tx;
-			chainstateStoreProvider.addSubAccount(relevancSubAccountTx);
-		} else if(tx.getType() == Definition.TYPE_REMOVE_SUBACCOUNT) {
-			//删除子账户的关联
-			RemoveSubAccountTransaction removeSubAccountTx = (RemoveSubAccountTransaction) tx;
-			chainstateStoreProvider.removeSubAccount(removeSubAccountTx);
 		} else if(tx.getType() == Definition.TYPE_REG_ALIAS) {
 			//注册别名
 			RegAliasTransaction rtx = (RegAliasTransaction) tx;
@@ -391,15 +379,7 @@ public class BlockStoreProvider extends BaseStoreProvider {
 			//修改别名，消耗信用点
 			UpdateAliasTransaction utx = (UpdateAliasTransaction) tx;
 			chainstateStoreProvider.updateAccountAlias(utx.getHash160(), utx.getAlias());
-		} else if(tx.getType() == Definition.TYPE_ASSETS_ISSUED) {
-			//资产发行
-			AssetsIssuedTransaction assetsIssuedTx = (AssetsIssuedTransaction) tx;
-			chainstateStoreProvider.assetsIssued(assetsIssuedTx);
-		} else if(tx.getType() == Definition.TYPE_ASSETS_TRANSFER) {
-			//资产转让
-			AssetsTransferTransaction assetsTransferTx = (AssetsTransferTransaction) tx;
-			chainstateStoreProvider.assetsTransfer(assetsTransferTx);
-		}else if(tx.getType() == Definition.TYPE_CERT_ACCOUNT_REVOKE){
+		} else if(tx.getType() == Definition.TYPE_CERT_ACCOUNT_REVOKE){
 			CertAccountRevokeTransaction rtx = (CertAccountRevokeTransaction)tx;
 			chainstateStoreProvider.addRevokeCertAccount(rtx);
 		}
@@ -549,10 +529,7 @@ public class BlockStoreProvider extends BaseStoreProvider {
 				
 				consensusMeeting.resetCurrentMeetingItem();
 			}
-			else if(tx.getType() == Definition.TYPE_ASSETS_REGISTER) {
-				//回滚资产注册以及资产注册后相关的
-				chainstateStoreProvider.rollbackAssetsRegisterTx(tx);
-			}
+
 		} else if(tx instanceof CreditTransaction) {
 			//信用值的增加
 			CreditTransaction creditTransaction = (CreditTransaction)tx;
@@ -563,14 +540,6 @@ public class BlockStoreProvider extends BaseStoreProvider {
 			chainstateStoreProvider.saveAccountInfo(accountInfo);
 
 			creditCollectionService.removeCredit(creditTransaction.getReasonType(), creditTransaction.getOwnerHash160());
-		} else if(tx.getType() == Definition.TYPE_RELEVANCE_SUBACCOUNT) {
-			//认证账户关联子账户
-			RelevanceSubAccountTransaction relevancSubAccountTx = (RelevanceSubAccountTransaction) tx;
-			chainstateStoreProvider.revokedAddSubAccount(relevancSubAccountTx);
-		} else if(tx.getType() == Definition.TYPE_REMOVE_SUBACCOUNT) {
-			//删除子账户的关联
-			RemoveSubAccountTransaction removeSubAccountTx = (RemoveSubAccountTransaction) tx;
-			chainstateStoreProvider.revokedRemoveSubAccount(removeSubAccountTx);
 		} else if(tx.getType() == Definition.TYPE_REG_ALIAS) {
 			//注册别名
 			RegAliasTransaction rtx = (RegAliasTransaction) tx;
@@ -579,10 +548,6 @@ public class BlockStoreProvider extends BaseStoreProvider {
 			//修改别名，消耗信用点
 			UpdateAliasTransaction utx = (UpdateAliasTransaction) tx;
 			chainstateStoreProvider.revokedUpdateAccountAlias(utx.getHash160(), utx.getAlias());
-		} else if(tx.getType() == Definition.TYPE_ASSETS_ISSUED) {
-			chainstateStoreProvider.rollbackAssetsIssueTx(tx);
-		}else if(tx.getType() == Definition.TYPE_ASSETS_TRANSFER) {
-			chainstateStoreProvider.rollbackAssetsTransferTx(tx);
 		}
 
 		else if(tx.getType() == Definition.TYPE_CERT_ACCOUNT_REGISTER ||
@@ -810,17 +775,7 @@ public class BlockStoreProvider extends BaseStoreProvider {
 			if((hash160 == null && accountFilter.contains(commonlytx.getHash160())) || (hash160 != null && Arrays.equals(hash160, commonlytx.getHash160()))) {
 				return true;
 			}
-			if(transaction.getType() == Definition.TYPE_ASSETS_ISSUED) {
-				AssetsIssuedTransaction assetsIssuedTx = (AssetsIssuedTransaction) transaction;
-				if((hash160 == null && accountFilter.contains(assetsIssuedTx.getReceiver())) || (hash160 != null && Arrays.equals(hash160, assetsIssuedTx.getReceiver()))) {
-					return true;
-				}
-			} else if(transaction.getType() == Definition.TYPE_ASSETS_TRANSFER) {
-				AssetsTransferTransaction assetsTransferTx = (AssetsTransferTransaction) transaction;
-				if((hash160 == null && accountFilter.contains(assetsTransferTx.getReceiver())) || (hash160 != null && Arrays.equals(hash160, assetsTransferTx.getReceiver()))) {
-					return true;
-				}
-			}
+
 		}
 		return false;
 	}

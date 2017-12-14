@@ -230,8 +230,8 @@ public class MeetingItem implements Cloneable {
 	 * @return ConsensusInfos
 	 */
 	public ConsensusInfos getCurrentConsensusInfos(int timePeriod) {
+
 		//根据时间戳确定当前的受托人和高度
-		
 		if(timePeriod >= consensusList.size() || timePeriod < 0) {
 			return null;
 		}

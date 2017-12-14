@@ -43,17 +43,27 @@ public class BlockValidator {
 	
 	@Autowired
 	private ConsensusMeeting consensusMeeting;
+
 	@Autowired
 	private NetworkParams networkParams;
+
 	@Autowired
 	private BlockStoreProvider blockStoreProvider;
+
 	@Autowired
 	private BlockForkService blockForkService;
+
 	@Autowired
 	private TransactionValidator transactionValidator;
+
 	@Autowired
 	private CreditCollectionService creditCollectionService;
 
+	/**
+	 * 验证区块是否合规
+	 * @param block
+	 * @return
+	 */
 	public Result doVal(Block block) {
 		try {
 			
@@ -64,13 +74,14 @@ public class BlockValidator {
 				log.error("验证新区块时段出错 {} , {}", block.getPeriodStartTime(), block.getTimePeriod());
 				return new Result(false, "验证新区块时段出错");
 			}
-			
+
 			if(log.isDebugEnabled()) {
 				log.debug("新区块验证信息：{}", currentInfos);
 			}
-			
+
 			//如果返回的是不确定，则通过
 			if(currentInfos.getResult() == ConsensusInfos.RESULT_UNCERTAIN) {
+				//log.warn 警告的意思
 				log.warn("不确定的时段, {}", block);
 				return new Result(false, "uncertain");
 			}
@@ -122,7 +133,8 @@ public class BlockValidator {
 	 * @return boolean
 	 */
 	public Result verifyBlock(Block block) {
-		long now = System.currentTimeMillis();
+
+		//		long now = System.currentTimeMillis();
 		
 		try {
 			if(!block.verify()) {
@@ -148,6 +160,7 @@ public class BlockValidator {
 		
 		//验证交易是否合法
 		Coin coinbaseFee = Coin.ZERO; //coinbase 交易包含的金额，主要是手续费
+
 		Coin fee = Coin.ZERO; 		  //手续费
 		
 		//每个区块只能包含一个coinbase交易，并且只能是第一个
@@ -183,7 +196,7 @@ public class BlockValidator {
 		}
 		
 //		log.info("===============验证交易耗时：{} ms", (System.currentTimeMillis() - now));
-		now = System.currentTimeMillis();
+//		now = System.currentTimeMillis();
 		
 		//验证本区块的双花
 		List<ByteHash> outputIndexHashArray = new ArrayList<ByteHash>();

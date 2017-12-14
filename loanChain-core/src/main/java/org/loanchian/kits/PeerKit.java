@@ -152,6 +152,7 @@ public class PeerKit {
 					if(peer.getAddress().getAddr().getHostAddress().equals(inetSocketAddress.getAddress().getHostAddress())) {
 						count++;
 					}
+
 				}
 
 				//判断本地地址是否有被动连接
@@ -168,6 +169,7 @@ public class PeerKit {
 					}
 				}
 
+				log.info("主动连接 outPeers 数量 : " + count);
 				//判断连接数是否大于等于10
 				if(count >= 10) {
 					return false;
@@ -926,7 +928,10 @@ public class PeerKit {
 	public boolean isSuperPeerAddress(InetSocketAddress addr){
 
 		boolean result = false;
+		log.info("superAllList.size() = " + superAllList.size());
 		for(int i = 0 ; i < superAllList.size() ; i++){
+			log.info("superAllList.get(i).getAddress().getHostString() = " + superAllList.get(i).getAddress().getHostString() +
+					"addr.getAddress().getHostAddress() = " + addr.getAddress().getHostAddress());
 			if(superAllList.get(i).getAddress().getHostString().equals(addr.getAddress().getHostAddress())){
 				result = true;
 				break;
@@ -1008,7 +1013,4 @@ public class PeerKit {
 		this.superAllList = superAllList;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(IpUtil.getIps());
-	}
 }

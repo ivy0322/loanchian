@@ -49,28 +49,25 @@ public class CarditConsensusMeeting implements ConsensusMeeting {
 	/** 会议状态 **/
 	/** 等待就绪 **/
 	public final static int MEETING_STATUS_WAIT_READY = 1;
-
-	/** 就绪完成，等待开始 **/
-	public final static int MEETING_STATUS_WAIT_BEGIN = 2;
-
-	/** 共识中 **/
-	public final static int MEETING_STATUS_CONSENSUS = 3;
-
-	/** 共识中，接受下一轮选举 **/
-	public final static int MEETING_STATUS_CONSENSUS_WAIT_NEXT = 4;
 	
 	@Autowired
 	private NetworkParams network;
+
 	@Autowired
 	private PeerKit peerKit;
+
 	@Autowired
 	private Mining mining;
+
 	@Autowired
 	private InventoryFilter filter;
+
 	@Autowired
 	private ConsensusPool consensusPool;
+
 	@Autowired
 	private DataSynchronizeHandler dataSynchronizeHandler;
+
 	@Autowired
 	private BlockStoreProvider blockStoreProvider;
 
@@ -126,23 +123,29 @@ public class CarditConsensusMeeting implements ConsensusMeeting {
 	 * 共识会议
 	 */
 	protected void meeting() {
-		
+
 		count++;
+
 		if(count % 100 == 0) {
 			String address = null;
 			if(account != null) {
 				address = new Address(network, account.getAddress().getHash160()).getBase58();
 			}
 			
-			log.info("bestHeight {}, meetingStatus : {}, address : {}, currentMetting : {}", getLocalBestBlockHeight(), meetingStatus, address, currentMetting);
+			log.info("最新高度 bestHeight {}, 共识会议状态meetingStatus : {}, 地址 address : {}, 当前共识会议currentMeeting : {}",
+					getLocalBestBlockHeight(), meetingStatus, address, currentMetting);
 		}
+
 		if(meetingStatus == 0 || meetingStatus == 3) {
+
 			if(meetingStatus == 0) {
 				meetingStatus = 1;
 				init();
 			}
 			return;
+
 		} else if(meetingStatus != 2 || currentMetting == null) {
+
 			if(meetingStatus == 1 && currentMetting != null) {
 				meetingStatus = 2;
 			}
@@ -862,6 +865,7 @@ public class CarditConsensusMeeting implements ConsensusMeeting {
 	}
 
 	private ConsensusInfos getConsensusInfos(long periodStartTime, int timePeriod) {
+
 		if(currentMetting.getPeriodStartTime() == periodStartTime) {
 			//如果当前轮没有初始化完成，则等待
 			while(!currentMetting.isInit()) {
@@ -873,6 +877,7 @@ public class CarditConsensusMeeting implements ConsensusMeeting {
 					}
 				}
 			}
+			// 返回当前打包时间获取的共识信息
 			return currentMetting.getCurrentConsensusInfos(timePeriod);
 		} else {
 			for (MeetingItem meetingItem : oldMettings) {
