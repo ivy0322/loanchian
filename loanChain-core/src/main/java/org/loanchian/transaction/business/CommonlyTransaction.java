@@ -34,7 +34,7 @@ public abstract class CommonlyTransaction extends BaseCommonlyTransaction {
 	 * 验证交易脚本
 	 */
 	public void verifyScript() {
-		verfifyCommonScript();
+		verifyCommonScript();
 	}
 	
 	/**

@@ -84,6 +84,7 @@ public class PeerAddress extends Message implements Serializable {
         try {
 			return new PeerAddress(params, InetAddress.getByName("127.0.0.1"), params.getPort());
 		} catch (UnknownHostException e) {
+            System.out.println("11111111111111111111111111111");
 			e.printStackTrace();
 		}
         return null;
@@ -102,6 +103,7 @@ public class PeerAddress extends Message implements Serializable {
         try {
             addr = InetAddress.getByAddress(addrBytes);
         } catch (UnknownHostException e) {
+            System.out.println("22222222222222222222222222222222222222");
             e.printStackTrace();
             throw new RuntimeException(e);
         }

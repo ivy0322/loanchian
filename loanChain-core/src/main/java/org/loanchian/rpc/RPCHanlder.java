@@ -852,10 +852,6 @@ public class RPCHanlder {
 			result = rpcService.regConsensus(password, consensusAddress);
 			return result;
 		}
-		//查询共识保证金
-		case "getregconsensusfee": {
-			return rpcService.regconsensusFee();
-		}
 
 		//退出共识
 		case "remconsensus": {

@@ -172,18 +172,10 @@ public class ConsensusController implements SubPageController {
         		BlockHeader bestBlockHeader = LoanchainInstance.getInstance().getAppKit().getNetwork().getBestBlockHeader();
         		long credit = ConsensusCalculationUtil.getConsensusCredit(bestBlockHeader.getHeight());
         		if(accountStore.getCert() >= credit) {
-					Coin recognizance = ConsensusCalculationUtil.calculatRecognizance(bestBlockHeader.getPeriodCount(), bestBlockHeader.getHeight());
-        			//可参与共识
-        			statusLabelId.setText("参与共识所需信用 " + credit + " , 共识需要提交保证金 " + recognizance.toText() + " INS");
-        			//余额
-        			Coin balance = accountKit.getBalance();
-        			if(balance.isLessThan(recognizance)) {
-        				buttonId.setText("保证金不足");
-        				buttonId.setDisable(true);
-        			} else {
-	        			buttonId.setText("申请共识");
-	        			buttonId.setDisable(false);
-        			}
+					//可参与共识
+					buttonId.setText("申请共识");
+					buttonId.setDisable(false);
+
         		} else {
         			//不可参与共识
         			statusLabelId.setText("您离共识所需信用 " + credit + " 还差 " + (credit - accountStore.getCert()));
@@ -249,12 +241,12 @@ public class ConsensusController implements SubPageController {
     	boolean consensusStatus = accountKit.checkConsensusing(null);
     	
     	String tip = null;
+    	// 正在共识中
     	if(consensusStatus) {
     		tip = "您当前正在共识中，确认要退出共识吗？";
     	} else {
-    		BlockHeader bestBlockHeader = LoanchainInstance.getInstance().getAppKit().getNetwork().getBestBlockHeader();
-    		Coin recognizance = ConsensusCalculationUtil.calculatRecognizance(bestBlockHeader.getPeriodCount(), bestBlockHeader.getHeight());
-    		tip = "参与共识会扣除 " + recognizance.toText() + "保证金，将在退出共识时返还，确定继续吗？";
+    		// 未参与共识
+    		tip = "您正在申请参与共识，确定继续吗？";
     	}
     	ConfirmDailog dailog = new ConfirmDailog(Context.getMainStage(), tip,1);
     	dailog.setListener(new Listener() {

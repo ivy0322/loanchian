@@ -340,12 +340,12 @@ public class TransactionValidator {
 				//当前共识人数
 				int currentConsensusSize = consensusMeeting.analysisConsensusSnapshots(periodStartTime).size();
 				//共识保证金
-				Coin recognizance = ConsensusCalculationUtil.calculatRecognizance(currentConsensusSize, blockHeader.getHeight());
-				if(!Coin.valueOf(outputs.get(0).getValue()).equals(recognizance)) {
-					result.setResult(false, "保证金不正确");
-					currentConsensusSize = consensusMeeting.analysisConsensusSnapshots(periodStartTime).size();
-					return validatorResult;
-				}
+//				Coin recognizance = ConsensusCalculationUtil.calculatRecognizance(currentConsensusSize, blockHeader.getHeight());
+//				if(!Coin.valueOf(outputs.get(0).getValue()).equals(recognizance)) {
+//					result.setResult(false, "保证金不正确");
+//					currentConsensusSize = consensusMeeting.analysisConsensusSnapshots(periodStartTime).size();
+//					return validatorResult;
+//				}
 			} else if(tx.getType() == Definition.TYPE_REM_CONSENSUS) {
 				//退出共识交易
 				RemConsensusTransaction remConsensusTx = (RemConsensusTransaction) tx;

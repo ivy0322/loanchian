@@ -96,34 +96,39 @@ public final class ConsensusCalculationUtil {
 		return issued.add(coefficientReward.multiply(realHeight % REWARD_CYCLE));
 	}
 
-	/**
-	 * 计算当前共识所需保证金
-	 * @param currentConsensusSize
-	 * @return Coin
-	 */
-	public static Coin calculatRecognizance(int currentConsensusSize, long height) {
-		
-		//max is (Math.log((double)300)/Math.log((double)2))
-		
-		double max = 2468d;
-
-		double lgN = Math.log((double)currentConsensusSize)/Math.log((double)2);
-		double nlgn = lgN*currentConsensusSize;
-		long res = (long) (Configure.CONSENSUS_MAX_RECOGNIZANCE.value * (nlgn/max));
-
-		if(res > Configure.CONSENSUS_MAX_RECOGNIZANCE.value) {
-			return Configure.CONSENSUS_MAX_RECOGNIZANCE;
-		} else if(res < Configure.CONSENSUS_MIN_RECOGNIZANCE.value) {
-			return Configure.CONSENSUS_MIN_RECOGNIZANCE;
-		} else {
-			if(res > Coin.COIN_VALUE * 100000) {
-				return Coin.COIN.multiply(res/(Coin.COIN_VALUE * 10000)).multiply(10000);
-			} else {
-				return Coin.COIN.multiply(res/(Coin.COIN_VALUE * 1000)).multiply(1000);
-			}
-		}
-	}
-	
+//	/**
+//	 * 计算当前共识所需保证金
+//	 * @param currentConsensusSize
+//	 * @return Coin
+//	 */
+//	public static Coin calculatRecognizance(int currentConsensusSize, long height) {
+//
+//		//max is (Math.log((double)300)/Math.log((double)2))
+//
+//		double max = 2468d;
+//
+//		double lgN = Math.log((double)currentConsensusSize)/Math.log((double)2);
+//
+//		double nlgn = lgN * currentConsensusSize;
+//
+//		long res = (long) (Configure.CONSENSUS_MAX_RECOGNIZANCE.value * (nlgn/max));
+//
+//		if(res > Configure.CONSENSUS_MAX_RECOGNIZANCE.value) {
+//
+//			return Configure.CONSENSUS_MAX_RECOGNIZANCE;
+//
+//		} else if(res < Configure.CONSENSUS_MIN_RECOGNIZANCE.value) {
+//
+//			return Configure.CONSENSUS_MIN_RECOGNIZANCE;
+//		} else {
+//			if(res > Coin.COIN_VALUE * 100000) {
+//				return Coin.COIN.multiply(res/(Coin.COIN_VALUE * 10000)).multiply(10000);
+//			} else {
+//				return Coin.COIN.multiply(res/(Coin.COIN_VALUE * 1000)).multiply(1000);
+//			}
+//		}
+//	}
+//
 	public static long getConsensusCredit(long height) {
 		return Configure.CONSENSUS_CREDIT;
 	}
@@ -133,7 +138,7 @@ public final class ConsensusCalculationUtil {
 		
 		int size = 308;
 		for (int i = 1; i <= size; i ++) {
-			System.out.println(i+"   "+calculatRecognizance(i, 5000000));
+			System.out.println(i);
 		}
 	}
 }

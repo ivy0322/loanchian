@@ -24,7 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 链状态查询提供服务，存放的是所有的未花费交易，以及共识节点
- * @author ln
+ * @author yangying
  *
  */
 @Repository
@@ -481,15 +481,18 @@ public class ChainstateStoreProvider extends BaseStoreProvider {
 	public void revokedConsensus(Transaction tx) {
 		
 		byte[] hash160 = null;
-		if(tx instanceof RemConsensusTransaction) {
-			//主动退出共识
-			RemConsensusTransaction remTransaction = (RemConsensusTransaction)tx;
-			hash160 = remTransaction.getHash160();
-		} else {
-			//违规被提出共识
-			ViolationTransaction vtx = (ViolationTransaction)tx;
-			hash160 = vtx.getViolationEvidence().getAudienceHash160();
-		}
+//		if(tx instanceof RemConsensusTransaction) {
+//
+//			//主动退出共识
+//			RemConsensusTransaction remTransaction = (RemConsensusTransaction) tx;
+//			hash160 = remTransaction.getHash160();
+//
+//		} else {
+//
+//			//违规被提出共识
+//			ViolationTransaction vtx = (ViolationTransaction) tx;
+//			hash160 = vtx.getViolationEvidence().getAudienceHash160();
+//		}
 		
 		//重新加入共识账户列表中
 		//注册共识的交易
@@ -525,96 +528,6 @@ public class ChainstateStoreProvider extends BaseStoreProvider {
 			accountInfo.setCert(accountInfo.getCert() - certChange);
 			saveAccountInfo(accountInfo);
 		}
-	}
-
-	/**
-	 * 更新账户的资产信息
-	 * @param code 注册交易的code
-	 * @param addressHash 用户地址的hash
-	 * @param amount 变动的金额
-	 * @param symbol 变动的方向  1，-1
-	 */
-	private void updateAccountAssets(byte[] code,  byte[] addressHash, long amount, int symbol) {
-		//资产账户的key 规则为 [1],[1] + recevier
-		byte[] key = new byte[addressHash.length + 2];
-		//固定key的前两位为 [1],[1]
-		System.arraycopy(Configure.ASSETS_ISSUE_FIRST_KEYS, 0, key, 0, Configure.ASSETS_ISSUE_FIRST_KEYS.length);
-		System.arraycopy(addressHash, 0, key, 2, addressHash.length);
-
-		//获取接收人资产账户列表
-		byte[] myAssets = getBytes(key);
-
-		if(myAssets == null && symbol == 1) {
-			//如果资产账户列表为空，直接新增
-			Assets assets = new Assets(code, amount);
-			myAssets = assets.serialize();
-			put(key, myAssets);
-		}else {
-			// 查询是否已存在于资产列表中
-			boolean hasAssets = false;
-			for(int j = 0; j < myAssets.length; j += Assets.CODE_LENGTH + 8) {
-				byte[] current = new byte[Assets.CODE_LENGTH + 8];
-				System.arraycopy(myAssets, j, current, 0, Assets.CODE_LENGTH + 8);
-				Assets assets = new Assets(current);
-
-				//如果存在，则在以前的资产上添加，然后重新保存到列表中
-				if(Arrays.equals(assets.getCode(), code)) {
-					assets.setBalance(assets.getBalance() + symbol * amount);
-
-					byte [] before = new byte[j];
-					System.arraycopy(myAssets, 0, before, 0, j);
-
-					byte [] end = new byte[myAssets.length - j - Assets.CODE_LENGTH - 8 ];
-					System.arraycopy(myAssets, j + Assets.CODE_LENGTH + 8, end, 0, end.length);
-
-					//newAssets = before + assets.serialize() + end;
-					byte [] newAssets = new byte[myAssets.length];
-					System.arraycopy(before, 0, newAssets, 0, before.length);
-					System.arraycopy(assets.serialize(), 0, newAssets, before.length, Assets.CODE_LENGTH + 8);
-					System.arraycopy(end, 0, newAssets, before.length + Assets.CODE_LENGTH + 8, end.length);
-
-					put(key, newAssets);
-					hasAssets = true;
-					break;
-				}
-			}
-			//如果没有则在后面新增
-			if(!hasAssets && symbol == 1) {
-				byte [] newAssets = new byte[myAssets.length + Assets.CODE_LENGTH + 8];
-				System.arraycopy(myAssets, 0, newAssets, 0, myAssets.length);
-
-				Assets assets = new Assets(code, amount);
-				System.arraycopy(assets.serialize(), 0, newAssets, myAssets.length, Assets.CODE_LENGTH + 8);
-				put(key, newAssets);
-			}
-		}
-	}
-
-	/**
-	 * 获取资产发行列表
-	 * @param code
-	 * @return
-	 */
-	public List<TransactionStore> getAssetsIssueList(byte[] code) {
-		//资产发行列表的key = [1],[1] + hash256(registerTx.code)
-		byte[] key = new byte[Sha256Hash.LENGTH + 2];
-		byte[] hash256 = Sha256Hash.hash(code);
-		//固定key的前两位为 1,1
-		System.arraycopy(Configure.ASSETS_ISSUE_FIRST_KEYS, 0, key, 0, Configure.ASSETS_ISSUE_FIRST_KEYS.length);
-		System.arraycopy(hash256, 0, key, 2, hash256.length);
-
-		List<TransactionStore> list = new ArrayList<>();
-		byte[] assetsRegHash256s = getBytes(key);
-		if(assetsRegHash256s == null) {
-			return list;
-		}
-
-		for (int j = 0; j < assetsRegHash256s.length; j += Sha256Hash.LENGTH) {
-			Sha256Hash txHash = Sha256Hash.wrap(Arrays.copyOfRange(assetsRegHash256s, j, j + Sha256Hash.LENGTH));
-			TransactionStore txs = blockStoreProvider.getTransaction(txHash.getBytes());
-			list.add(txs);
-		}
-		return list;
 	}
 
 	public void clean() {

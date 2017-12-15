@@ -207,9 +207,10 @@ public class BlockForkServiceImpl implements BlockForkService {
 		}
 	}
 
-	/*
+	/**
 	 * 处理分叉
-	 * @param blockForkChain 分叉块的链，也就是分叉块里的组合长度，和主链判断是否超过主链，超过则代表本地应该重新选择
+	 * @param blockForkStore 分叉块的存储，也就是分叉块里的组合长度，和主链判断是否超过主链，超过则代表本地应该重新选择
+	 * @param blockForkChains 分叉块存储的集合
 	 */
 	private boolean processForkBlock(BlockForkStore blockForkStore, List<BlockForkStore> blockForkChains) {
 		

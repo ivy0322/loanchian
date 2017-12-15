@@ -44,199 +44,120 @@ public final class Configure {
 		}
     }
 	
-	/**
-	 * 网络中默认的p2p端口,一般是指没有自已修改过端口的服务节点，使用的是该类端口
-	 */
+	/**  网络中默认的p2p端口,一般是指没有自已修改过端口的服务节点，使用的是该类端口 */
 	public final static int DEFAULT_PORT = 12816;
 
-	/**
-	 * p2p 端口
-	 */
+	/**  p2p 端口 */
 	public final static int PORT = getProperty("port", DEFAULT_PORT);
 	
-	/**
-	 * 是否挖矿
-	 */
+	/**  是否挖矿 */
 	public final static boolean MINING = getProperty("mining", false);
 
-	/**
-	 * 是否挖矿
-	 */
+	/**  开始挖矿的高度 */
 	public final static long START_HEIGHT = getProperty("start.height", 10000L);
 
-
-	/**
-	 * 最小节点连接数，只要达到这个数量之后，节点才开始同步与监听数据，并提供网络服务
-	 */
+	/** 最小节点连接数，只要达到这个数量之后，节点才开始同步与监听数据，并提供网络服务 */
 	public final static int MIN_CONNECT_COUNT = getProperty("min.connect.count", 1);
 
-
-	/**
-	 * 超级节点之间最大连接数
-	 */
+	/** 超级节点之间最大连接数 */
 	public final static int MAX_SUPER_CONNECT_COUNT = getProperty("max.super.connect.count", 100);
 
-	/**
-	 * 普通节点广播的超级节点数
-	 */
+	/** 普通节点广播的超级节点数 */
 	public final static int MAX_NORMAL_BROADCAST_SUPER_CONNECT_COUNT = getProperty("max.normal.super.connect.count", 2);
 
-	/**
-	 * 普通节点连接的超级节点数
-	 */
+	/** 普通节点连接的超级节点数 */
 	public final static int MAX_NORMAL_CONNECT_SUPER_CONNECT_COUNT = getProperty("max.normal.super.connect.count", 3);
 
-	/**
-	 * 本节点是否是超级节点 0：no   1：yes
-	 */
+	/**  本节点是否是超级节点 0：否   1：是 */
 	public final static int IS_SUPER_NODE = getProperty("is.super.node", 0);
 
-	/**
-	 *
-	 */
-	public final static int MAX_ANTICODE_COUNT =  getProperty("max.anticode_count", 2000);
-
-	/**
-	 * 最大允许节点连接数
-	 */
+	/**  最大允许节点连接数 */
 	public final static int MAX_CONNECT_COUNT = getProperty("max.connect.count", 10);
 	
-	/**
-	 * 区块生成间隔时间，单位秒
-	 */
+	/**  区块生成间隔时间，单位秒 */
 	public final static int BLOCK_GEN_TIME = 30;
 
-	/**
-	 * 区块生成间隔时间，单位豪秒
-	 */
+	/** 区块生成间隔时间，单位豪秒 */
 	public final static long BLOCK_GEN__MILLISECOND_TIME = BLOCK_GEN_TIME * 1000;
 
-	/**
-	 * 挖矿奖励冻结区块数
-	 */
+	/** 挖矿奖励冻结区块数 */
 	public final static int MINING_MATURE_COUNT = 1000;	// getProperty("block.gen.time", 1000);
 	
-	/**
-	 * 数据存储目录
-	 */
+	/** 数据存储目录 */
 	public static String DATA_DIR = getProperty("data.dir", SERVER_HOME + File.separator +"data");
-	/**
-	 * 账户存储目录
-	 */
+
+	/**  账户存储目录 */
 	public static String DATA_ACCOUNT = DATA_DIR + File.separator + "account";
-	/**
-	 * 区块存储目录
-	 */
+
+	/** 区块存储目录 */
 	public static String DATA_BLOCK = DATA_DIR + File.separator + "block";
-	/**
-	 * 区块状态存储目录
-	 */
+
+	/** 区块状态存储目录 */
 	public static String DATA_CHAINSTATE = DATA_DIR + File.separator + "chainstate";
-	/**
-	 * 与帐户有关的交易存储目录
-	 */
+
+	/** 与帐户有关的交易存储目录 */
 	public static String DATA_TRANSACTION = DATA_DIR + File.separator + "transaction";
 
 
 	
-	/*************  RPC 相关配置  begin  *****************/
+	//TODO *************************************  RPC 相关配置  begin  *****************************************
 	
-	/**
-	 * RPC服务默认地址
-	 */
+	/** RPC服务默认地址 */
 	public static String RPC_SERVER_HOST = "localhost";
 
-	/**
-	 * RPC 默认端口
-	 */
+	/** RPC 默认端口 */
 	public static int RPC_SERVER_PORT = 8158;
 
-	/**
-	 * RPC 默认用户名
-	 */
+	/** RPC 默认用户名 */
 	public static String RPC_SERVER_USER = "user";
 
-	/**
-	 * PRC 消息体前缀固定8位记录信息长度
-	 */
+	/** PRC 消息体前缀固定8位记录信息长度 */
 	public static int RPC_HEAD_LENGTH = 8;
 	
-	/*************  RPC 相关配置   end  *****************/
+	//TODO *************************************  RPC 相关配置   end  *****************************************
 
 
+
+
+	//TODO *************************************  账户相关配置  begin  *****************************************
 	
-
-	/*************  账户相关配置  begin  *****************/
-	
-	/**
-	 * 账户不存在时，是否自动创建
-	 */
+	/** 账户不存在时，是否自动创建 */
 	public static boolean ACCOUNT_AUTO_INIT = getProperty("account.auto.init", false);
 	
-	/*************  账户相关配置   end  *****************/
+	//TODO *************************************  账户相关配置   end  *****************************************
 
-	//TODO 临时设置为0
-	/**
-	 * 账户注册别名所需信用值
-	 */
+	/** 账户注册别名所需信用值 */
 	public final static long REG_ALIAS_CREDIT = 1;
 
-	/**
-	 * 修改账户别名需信用达到值
-	 */
+	/** 修改账户别名需信用达到值 */
 	public final static long UPDATE_ALIAS_CREDIT = 1;
 
-	/**
-	 * 修改账户别名消耗信用值
-	 */
+	/** 修改账户别名消耗信用值 */
 	public final static long UPDATE_ALIAS_SUB_CREDIT = -1;
 
 
-	/**
-	 * 认证账户level最大值
-	 */
+	/** 认证账户level最大值 */
 	public final static int MAX_CERT_LEVEL = 4;
 
-	/**
-	 * 被吊销的认证账户
-	 */
-	public final static int REVOKED_CERT_LEVEL = 0;
-
-	/**
-	 * 参与共识所需的信用点
-	 */
+	/** 参与共识所需的信用点 */
 	public final static long CONSENSUS_CREDIT = 1;
 	
-	/**
-	 * 转账获得信用点数
-	 */
+	/** 转账获得信用点数 */
 	public final static long CERT_CHANGE_PAY = 1;
 	
-	/**
-	 * 转账获得信用点数 - 间隔时间 ， 毫秒数
-	 */
+	/**  转账获得信用点数 - 间隔时间 ， 毫秒数 */
 	public final static long CERT_CHANGE_PAY_INTERVAL = 24 * 60 * 60 * 1000l;
-	/**
-	 * 转账获得信用点数 - 间隔时间 ， 秒数
-	 */
+
+	/** 转账获得信用点数 - 间隔时间 ， 秒数 */
 	public final static long CERT_CHANGE_PAY_INTERVAL_SECOND = CERT_CHANGE_PAY_INTERVAL / 1000l;
 
-	/**
-	 * 超时未出块惩罚信用点数
-	 */
+	/** 超时未出块惩罚信用点数 */
 	public final static long CERT_CHANGE_TIME_OUT = -2;
-	/**
-	 * 严重违规的惩罚信用点数
-	 */
+
+	/** 严重违规的惩罚信用点数 */
 	public final static long CERT_CHANGE_SERIOUS_VIOLATION = -9999999999l;
 
-	/** 参与共识所需最低保证金 -- 1 W ins **/
-	public static final Coin CONSENSUS_MIN_RECOGNIZANCE = Coin.COIN.multiply(10000);
-	/** 参与共识所需最高保证金 **/
-	public static final Coin CONSENSUS_MAX_RECOGNIZANCE = Coin.COIN.multiply(1000000);
-	/** 资产发行注册手续费 --  1 W ins **/
-	public static final Coin ASSETS_REG_FEE = Coin.COIN.multiply(10000);
-	/**单笔交易最大值*/
+	/** 单笔交易最大值 */
 	public static final Coin MAX_OUTPUT_COIN = Coin.COIN.multiply(100000000);
 
 
@@ -256,33 +177,14 @@ public final class Configure {
 
 	/*************  系统级配置   begin  *****************/
 
-	/**
-	 * 认证账户列表存储键
-	 */
+	// 认证账户列表存储键
 	public final static byte[] CERT_ACCOUNT_KEYS = Sha256Hash.hashTwice("cert_account_keys".getBytes());
 
-
-	/**
-	 * 共识账户列表存储键
-	 */
+	// 共识账户列表存储键
 	public final static byte[] REVOKED_CERT_ACCOUNT_KEYS = Sha256Hash.hashTwice("revoked_cert_account_keys".getBytes());
-	/**
-	 * 共识账户列表存储键
-	 */
+
+	// 共识账户列表存储键
 	public final static byte[] CONSENSUS_ACCOUNT_KEYS = Sha256Hash.hashTwice("consensus_account_keys".getBytes());
-
-	/**
-	 * 资产注册列表存储键
-	 */
-	public final static byte[] ASSETS_REG_LIST_KEYS = Sha256Hash.hashTwice("assets_reg_list_keys".getBytes());
-
-
-	/**
-	 *  资产发行列表存储键首两位
-	 */
-
-	public final static byte[] ASSETS_ISSUE_FIRST_KEYS = new byte[]{1,1};
-
 
 	/*************  系统级配置   begin  *****************/
 	

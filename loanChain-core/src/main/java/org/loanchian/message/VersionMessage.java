@@ -99,6 +99,7 @@ public class VersionMessage extends Message {
             	theirAddr = remoteAddress;
             }
         } catch (UnknownHostException e) {
+			System.out.println("aaaaaaaaaaaaaaa");
             throw new RuntimeException(e);
         }
         subVer = Definition.LIBRARY_SUBVER;
@@ -135,8 +136,10 @@ public class VersionMessage extends Message {
             // Their address.
             theirAddr.serializeToStream(buf);
         } catch (UnknownHostException e) {
+			System.out.println("bbbbbbbbbbbbbbbbbb");
             throw new RuntimeException(e);  // Can't happen.
         } catch (IOException e) {
+			System.out.println("ccccccccccccccccccc");
             throw new RuntimeException(e);  // Can't happen.
         }
         // Now comes subVer.

@@ -3421,20 +3421,6 @@ public class AccountKit {
 			if((accountStore != null && accountStore.getCert() >= ConsensusCalculationUtil.getConsensusCredit(bestBlockHeader.getHeight()))
 					|| (ConsensusCalculationUtil.getConsensusCredit(bestBlockHeader.getHeight()) <= 0l && accountStore == null)) {
 
-				//保证金是否充足
-				//根据当前人数动态计算参与共识的保证金
-				//上下限为1W -- 100W INS
-				//当前共识人数
-				int currentConsensusSize = bestBlockHeader.getPeriodCount();
-				//共识保证金
-				Coin recognizance = ConsensusCalculationUtil.calculatRecognizance(currentConsensusSize, bestBlockHeader.getHeight());
-				//输入金额
-				Coin totalInputCoin = Coin.ZERO;
-				//选择输入
-				List<TransactionOutput> fromOutputs = selectNotSpentTransaction(recognizance, account.getAddress());
-				if(fromOutputs == null || fromOutputs.size() == 0) {
-					return new Result(false, "余额不足,不能申请共识;当前共识人数" + currentConsensusSize + ",所需保证金 " + recognizance.toText() + " LCC");
-				}
 				//是否有指定的打包人
 				byte[] packager = null;
 				if(packagerAddress == null) {
@@ -3448,58 +3434,19 @@ public class AccountKit {
 						return new Result(false, "指定共识人不正确");
 					}
 				}
+
+				//注册成为共识节点
 				RegConsensusTransaction tx = new RegConsensusTransaction(network, Definition.VERSION, bestBlockHeader.getPeriodStartTime(), packager);
 
-				TransactionInput input = new TransactionInput();
-				for (TransactionOutput output : fromOutputs) {
-					input.addFrom(output);
-					totalInputCoin = totalInputCoin.add(Coin.valueOf(output.getValue()));
-				}
-				//创建一个输入的空签名
-				if(account.getAccountType() == network.getSystemAccountVersion()) {
-					//普通账户的签名
-					input.setScriptSig(ScriptBuilder.createInputScript(null, account.getEcKey()));
-				} else {
-					//认证账户的签名
-					input.setScriptSig(ScriptBuilder.createCertAccountInputScript(null, account.getAccountTransaction().getHash().getBytes(), account.getAddress().getHash160()));
-				}
-				tx.addInput(input);
-
-				//输出到脚本
-				Script out = ScriptBuilder.createConsensusOutputScript(account.getAddress().getHash160(), network.getCommunityManagerHash160());
-				tx.addOutput(recognizance, out);
-
-				//是否找零
-				if(totalInputCoin.isGreaterThan(recognizance)) {
-					tx.addOutput(totalInputCoin.subtract(recognizance), account.getAddress());
-				}
-				log.info("共识保证金：{}", recognizance.toText());
-				//签名交易
-				final LocalTransactionSigner signer = new LocalTransactionSigner();
-				try {
-					if(account.getAccountType() == network.getSystemAccountVersion()) {
-						//普通账户的签名
-						signer.signInputs(tx, account.getEcKey());
-					} else {
-						//认证账户的签名
-						signer.signCertAccountInputs(tx, account.getTrEckeys(), account.getAccountTransaction().getHash().getBytes(), account.getAddress().getHash160());
-					}
-				} catch (Exception e) {
-					log.error(e.getMessage(), e);
-					BroadcastResult broadcastResult = new BroadcastResult();
-					broadcastResult.setSuccess(false);
-					broadcastResult.setMessage("签名失败");
-					return broadcastResult;
-				}
+				// 签名
 				tx.sign(account);
+
+				//验证注册成为共识节点的合法性
 				tx.verify();
+
+				//脚本验证
 				tx.verifyScript();
 
-				//验证交易
-				TransactionValidatorResult valRes = transactionValidator.valDo(tx).getResult();
-				if(!valRes.isSuccess()) {
-					return new Result(false, valRes.getMessage());
-				}
 
 				//加入内存池
 				MempoolContainer.getInstace().add(tx);

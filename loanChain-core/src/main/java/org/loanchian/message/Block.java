@@ -137,7 +137,7 @@ public class Block extends BlockHeader {
 	public boolean verify() {
 		//验证梅克尔树根是否正确
 		if(!buildMerkleHash().equals(getMerkleHash())) {
-			throw new VerificationException("block merkle hash error");
+			throw new VerificationException("区块梅克尔树根不正确");
 		}
 		
 		//区块最大限制
@@ -151,8 +151,10 @@ public class Block extends BlockHeader {
 		
 		//每个区块只能包含一个coinbase交易，并且只能是第一个
 		boolean coinbase = false;
-		
+
+		//交易集合
 		List<Transaction> txs = getTxs();
+
 		//验证交易数量
 		if(txs.size() != (int) txCount) {
 			throw new VerificationException("交易数量不正确");

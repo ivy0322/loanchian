@@ -115,10 +115,10 @@ public abstract class BaseCommonlyTransaction extends Transaction {
 	 * 验证交易脚本
 	 */
 	public void verifyScript() {
-		verfifyCommonScript();
+		verifyCommonScript();
 	}
 	
-	protected void verfifyCommonScript() {
+	protected void verifyCommonScript() {
 		//除转账交易外的通用验证脚本
 		BaseCommonlyTransaction tempTransaction = (BaseCommonlyTransaction) network.getDefaultSerializer().makeTransaction(baseSerialize(), 0);
 		tempTransaction.setScriptBytes(null);
