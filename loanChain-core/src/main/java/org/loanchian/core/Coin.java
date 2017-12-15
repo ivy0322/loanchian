@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 /**
  * 代币 单位
- * @author ln
+ * @author yy
  *
  */
 public final class Coin implements Comparable<Coin>, Serializable {

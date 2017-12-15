@@ -45,17 +45,27 @@ public class DataSynchronizeHandler implements Runnable {
 	
 	//所有已连接的节点
 	private CopyOnWriteArrayList<Peer> peers = new CopyOnWriteArrayList<Peer>();
+
 	//区块同步完成监听器
 	private List<BlockDownendListener> blockDownendListeners = new CopyOnWriteArrayList<BlockDownendListener>();
-		
+
+	//p2p 网络
 	@Autowired
 	private NetworkParams network;
+
+	// 共识
 	@Autowired
 	private ConsensusMeeting consensusMeeting;
+
+	//节点
 	@Autowired
 	private PeerKit peerKit;
+
+	//区块提供服务
 	@Autowired
 	private BlockStoreProvider blockStoreProvider;
+
+	//区块消息
 	@Autowired
 	private BlockMessageProcess blockMessageProcess;
 	
@@ -64,14 +74,19 @@ public class DataSynchronizeHandler implements Runnable {
 	
 	//下载消息
 	private GetBlocksMessage downingMessage;
+
 	//同步开始高度
 	private long startHeight;
+
 	//同步停止高度
 	private long stopHeight;
+
 	//最后同步块hash
 	private Sha256Hash lastDownHash;
+
 	//本地最新块是否是分叉块
 	private boolean localBestBlockIsFork;
+
 	//下载监听
 	private SettableListenableFuture<Boolean> downloadFuture;
 	

@@ -132,6 +132,7 @@ public final class MiningService implements Mining {
 		try {
 			Thread.sleep(1000l);
 		} catch (InterruptedException e) {
+			log.info("执行打包出错： " + e.getMessage());
 			if(log.isDebugEnabled()) {
 				log.debug("{}", e.getMessage());
 			}

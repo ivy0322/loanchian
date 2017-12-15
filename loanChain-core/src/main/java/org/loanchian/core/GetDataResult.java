@@ -8,6 +8,7 @@ import org.loanchian.message.Message;
  *
  */
 public class GetDataResult extends Result {
+
 	//结果
 	private Message data;
 

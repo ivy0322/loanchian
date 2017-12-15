@@ -24,6 +24,7 @@ public class MempoolContainer implements Mempool {
 	private static final Map<Sha256Hash, Transaction> packageingContainer = new HashMap<Sha256Hash, Transaction>();
 	
 	private static final ConcurrentLinkedQueue<Transaction> container = new ConcurrentLinkedQueue<Transaction>();
+
 	private static final Map<Sha256Hash, Transaction> indexContainer = new HashMap<Sha256Hash, Transaction>();
 	
 	private static final Mempool instace = new MempoolContainer();
@@ -40,6 +41,7 @@ public class MempoolContainer implements Mempool {
 	public boolean add(Transaction tx) {
 		locker.lock();
 		try {
+			// 判断indexContainer这个map中是否有这个key
 			if(indexContainer.containsKey(tx.getHash())) {
 				return false;
 			}
